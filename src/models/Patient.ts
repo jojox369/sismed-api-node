@@ -12,8 +12,8 @@ import Schedule from './Schedule'
 
 @Entity('patient')
 export default class {
-	@PrimaryGeneratedColumn({ type: 'int', name: 'prontuario' })
-	prontuario: number
+	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+	id: number
 
 	@Column('varchar', { name: 'name', length: 60 })
 	name: string

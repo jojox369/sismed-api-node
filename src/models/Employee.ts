@@ -1,6 +1,7 @@
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	JoinTable,
 	ManyToMany,
 	ManyToOne,
@@ -41,8 +42,8 @@ export default class {
 	@Column('bigint', { name: 'crm', nullable: true, unique: true })
 	crm: string | null
 
-	@Column('varchar', { name: 'speciality', nullable: true, length: 45 })
-	speciality: string | null
+	@Column('varchar', { name: 'specialty', nullable: true, length: 45 })
+	specialty: string | null
 
 	@Column('varchar', { name: 'phone', length: 10 })
 	phone: string
@@ -87,6 +88,7 @@ export default class {
 	schedule: Schedule[]
 
 	@ManyToOne(() => Address, (address) => address.employee)
+	@JoinColumn([{ name: 'address_id', referencedColumnName: 'id' }])
 	address: Address
 
 	@ManyToMany(() => HealthInsuranceType)

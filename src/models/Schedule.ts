@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+	Column,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import Employee from './Employee'
 import HealthInsuranceType from './HealthInsuranceType'
@@ -47,17 +53,21 @@ export default class {
 	notes: string | null
 
 	@ManyToOne(() => Employee, (employee) => employee.schedule)
+	@JoinColumn([{ name: 'employee_id', referencedColumnName: 'id' }])
 	employee: Employee
 
 	@ManyToOne(() => Patient, (patient) => patient.schedule, { cascade: true })
+	@JoinColumn([{ name: 'patient_id', referencedColumnName: 'id' }])
 	patient: Patient
 
 	@ManyToOne(
 		() => HealthInsuranceType,
 		(healthInsuranceType) => healthInsuranceType.schedule
 	)
+	@JoinColumn([{ name: 'healthInsuranceType_id', referencedColumnName: 'id' }])
 	healthInsuranceType: HealthInsuranceType
 
 	@ManyToOne(() => Procedure, (procedure) => procedure.schedule)
+	@JoinColumn([{ name: 'procedure_id', referencedColumnName: 'id' }])
 	procedure: Procedure
 }
