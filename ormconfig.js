@@ -1,4 +1,4 @@
-const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'dist'
+const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'dist';
 
 module.exports = {
 	type: 'mysql',
@@ -11,4 +11,4 @@ module.exports = {
 	cli: {
 		migrationsDir: rootDir + '/database/migrations',
 	},
-}
+};

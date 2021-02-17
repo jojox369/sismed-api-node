@@ -1,12 +1,16 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import UserController from '../controllers/User'
-import AuthenticationMiddleware from '../middleware/Authentication'
-import ScheduleRoutes from './schedule.routes'
+import UserController from '../controllers/User';
+import AuthenticationMiddleware from '../middleware/Authentication';
+import DevRoutes from './dev.routes';
+import PatientRoutes from './patient.routes';
+import ScheduleRoutes from './schedule.routes';
 
-const Routers = Router()
+const Routers = Router();
 
-Routers.use('/user', UserController.Authentication)
-Routers.use('/schedule', AuthenticationMiddleware, ScheduleRoutes)
+Routers.use('/user', UserController.Authentication);
+Routers.use('/schedule', AuthenticationMiddleware, ScheduleRoutes);
+Routers.use('/patient', AuthenticationMiddleware, PatientRoutes);
+Routers.use('/dev', DevRoutes);
 
-export default Routers
+export default Routers;

@@ -1,4 +1,4 @@
-import Employee from '../models/Employee'
+import Employee from '../models/Employee';
 
 export default {
 	Authentication(employee: Employee, token: string) {
@@ -7,7 +7,7 @@ export default {
 			perfil: employee.perfilId,
 			name: employee.name,
 			token,
-		}
+		};
 	},
 
 	Details(employee: Employee) {
@@ -42,7 +42,7 @@ export default {
 				city: employee.address.city,
 				state: employee.address.state,
 			},
-		}
+		};
 	},
 
 	employees(employee: Employee[]) {
@@ -57,10 +57,10 @@ export default {
 			cellPhone: func.cellPhone,
 
 			email: func.email,
-		}))
+		}));
 	},
 
 	medicos(medicos: Employee[]) {
-		return medicos.map((medico) => ({ id: medico.id, name: medico.name }))
+		return medicos.map((medico) => ({ id: medico.id, name: medico.name }));
 	},
-}
+};

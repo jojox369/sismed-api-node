@@ -1,9 +1,9 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import ScheduleController from '../controllers/Schedule'
+import ScheduleController from '../controllers/Schedule';
 
-const Routers = Router()
+const Routers = Router();
 
-Routers.get('/', ScheduleController.List)
+Routers.get('/', ScheduleController.List);
 
-export default Routers
+export default Routers;

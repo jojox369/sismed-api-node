@@ -1,35 +1,40 @@
 import {
 	Column,
 	Entity,
+	Index,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-} from 'typeorm'
+} from 'typeorm';
 
-import HealthInsurance from './HealthInsurance'
-import Patient from './Patient'
-import Schedule from './Schedule'
+import Healthinsurance from './HealthInsurance';
+import Patient from './Patient';
+import Schedule from './Schedule';
 
-@Entity('healthInsuranceType')
-export default class {
-	@PrimaryGeneratedColumn()
-	id: number
+@Index('fk_healthInsuranceType_healthInsurance1_idx', ['healthInsuranceId'], {})
+@Entity('healthinsurancetype', { schema: 'sismed' })
+export default class Healthinsurancetype {
+	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+	id: number;
 
 	@Column('varchar', { name: 'name', length: 45 })
-	name: string
+	name: string;
 
-	@Column('int', { name: 'healthInsurance_id' })
-	healthInsuranceId: number | null
-
-	@OneToMany(() => Patient, (patient) => patient.healthInsuranceType)
-	patient: Patient[]
-
-	@OneToMany(() => Schedule, (schedule) => schedule.healthInsuranceType)
-	schedule: Schedule[]
+	@Column('int', { name: 'healthInsurance_id', nullable: true })
+	healthInsuranceId: number | null;
 
 	@ManyToOne(
-		() => HealthInsurance,
-		(healthInsurance) => healthInsurance.healthInsuranceType
+		() => Healthinsurance,
+		(healthinsurance) => healthinsurance.healthinsurancetypes,
+		{ onDelete: 'NO ACTION', onUpdate: 'NO ACTION' }
 	)
-	healthInsurance: HealthInsurance
+	@JoinColumn([{ name: 'healthInsurance_id', referencedColumnName: 'id' }])
+	healthInsurance: Healthinsurance;
+
+	@OneToMany(() => Patient, (patient) => patient.healthInsuranceType)
+	patients: Patient[];
+
+	@OneToMany(() => Schedule, (schedule) => schedule.healthInsuranceType)
+	schedules: Schedule[];
 }

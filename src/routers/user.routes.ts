@@ -1,9 +1,9 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import UserController from '../controllers/User'
+import UserController from '../controllers/User';
 
-const Routers = Router()
+const Routers = Router();
 
-Routers.post('/auth', UserController.Authentication)
+Routers.post('/auth', UserController.Authentication);
 
-export default Routers
+export default Routers;

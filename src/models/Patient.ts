@@ -1,99 +1,125 @@
 import {
 	Column,
 	Entity,
+	Index,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-} from 'typeorm'
+} from 'typeorm';
 
-import Address from './Address'
-import HealthInsuranceType from './HealthInsuranceType'
-import Schedule from './Schedule'
+import Address from './Address';
+import Clinicalregister from './Clinicalregister';
+import Exam from './Exam';
+import HealthInsuranceType from './HealthInsuranceType';
+import Schedule from './Schedule';
 
-@Entity('patient')
-export default class {
+@Index('fk_patient_address1_idx', ['addressId'], {})
+@Index('fk_patient_healthInsuranceType1_idx', ['healthInsuranceTypeId'], {})
+@Entity('patient', { schema: 'sismed' })
+export default class Patient {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
-	id: number
+	id: number;
 
 	@Column('varchar', { name: 'name', length: 60 })
-	name: string
+	name: string;
 
-	@Column('int', { name: 'healthInsuranceType_id' })
-	healthInsuranceTypeId: number
+	@Column('varchar', { name: 'cpf', nullable: true, length: 14 })
+	cpf: string | null;
 
-	@Column('int', { name: 'address_id' })
-	addressId: number
+	@Column('varchar', { name: 'rg', nullable: true, length: 13 })
+	rg: string | null;
 
-	@Column('varchar', { name: 'cpf', unique: true, length: 11 })
-	cpf: string
+	@Column('varchar', { name: 'emittingOrgan', nullable: true, length: 20 })
+	emittingOrgan: string | null;
 
-	@Column('varchar', { name: 'rg', unique: true, length: 9 })
-	rg: string
-
-	@Column('varchar', { name: 'emittingOrgan', length: 45 })
-	emittingOrgan: string
-
-	@Column('date', { name: 'emittingDate' })
-	emittingDate: string
+	@Column('date', { name: 'emittingDate', nullable: true })
+	emittingDate: string | null;
 
 	@Column('varchar', { name: 'phone', nullable: true, length: 14 })
-	phone: string | null
+	phone: string | null;
 
 	@Column('varchar', { name: 'jobPhone', nullable: true, length: 14 })
-	jobPhone: string | null
+	jobPhone: string | null;
 
 	@Column('varchar', { name: 'cellPhone', nullable: true, length: 16 })
-	cellPhone: string | null
+	cellPhone: string | null;
 
-	@Column('varchar', { name: 'sex', length: 3 })
-	sex: string
+	@Column('char', { name: 'sex', nullable: true, length: 1 })
+	sex: string | null;
 
-	@Column('date', { name: 'dateBirth' })
-	dateBirth: string
+	@Column('date', { name: 'dateBirth', nullable: true })
+	dateBirth: string | null;
 
-	@Column('varchar', { name: 'email', length: 45 })
-	email: string
+	@Column('varchar', { name: 'email', nullable: true, length: 50 })
+	email: string | null;
 
-	@Column('varchar', { name: 'maritalStatus', length: 1 })
-	maritalStatus: string
+	@Column('varchar', { name: 'maritalStatus', nullable: true, length: 1 })
+	maritalStatus: string | null;
 
-	@Column('varchar', { name: 'schooling', length: 3 })
-	schooling: string
-
-	@Column('varchar', { name: 'naturalness', length: 45 })
-	naturalness: string
+	@Column('char', { name: 'schooling', nullable: true, length: 3 })
+	schooling: string | null;
 
 	@Column('varchar', { name: 'profession', nullable: true, length: 100 })
-	profession: string | null
+	profession: string | null;
 
 	@Column('varchar', { name: 'recommendation', nullable: true, length: 30 })
-	recommendation: string | null
+	recommendation: string | null;
 
-	@Column('varchar', { name: 'nationality', nullable: true, length: 1 })
-	nationality: string
+	@Column('varchar', { name: 'naturalness', nullable: true, length: 100 })
+	naturalness: string | null;
 
-	@Column('varchar', { name: 'situation', nullable: true, length: 2 })
-	situation: string | null
+	@Column('char', { name: 'nationality', nullable: true, length: 1 })
+	nationality: string | null;
+
+	@Column('char', {
+		name: 'situation',
+		nullable: true,
+		length: 1,
+		default: () => "'A'",
+	})
+	situation: string | null;
 
 	@Column('varchar', {
 		name: 'healthInsuranceNumber',
 		nullable: true,
 		length: 50,
 	})
-	healthInsuranceNumber: string | null
+	healthInsuranceNumber: string | null;
 
-	@Column('date', { name: 'validade', nullable: true })
-	validity: string | null
+	@Column('date', { name: 'validity', nullable: true })
+	validity: string | null;
 
-	@OneToMany(() => Schedule, (schedule) => schedule.patient)
-	schedule: Schedule[]
+	@Column('int', { name: 'address_id' })
+	addressId: number;
 
-	@ManyToOne(() => Address, (address) => address.patient, { cascade: true })
-	address: Address
+	@Column('int', { name: 'healthInsuranceType_id' })
+	healthInsuranceTypeId: number;
+
+	@OneToMany(
+		() => Clinicalregister,
+		(clinicalregister) => clinicalregister.patient
+	)
+	clinicalregisters: Clinicalregister[];
+
+	@OneToMany(() => Exam, (exam) => exam.patient)
+	exams: Exam[];
+
+	@ManyToOne(() => Address, (address) => address.patients, {
+		onDelete: 'NO ACTION',
+		onUpdate: 'NO ACTION',
+	})
+	@JoinColumn([{ name: 'address_id', referencedColumnName: 'id' }])
+	address: Address;
 
 	@ManyToOne(
 		() => HealthInsuranceType,
-		(healthInsuranceType) => healthInsuranceType.patient
+		(healthinsurancetype) => healthinsurancetype.patients,
+		{ onDelete: 'NO ACTION', onUpdate: 'NO ACTION' }
 	)
-	healthInsuranceType: HealthInsuranceType
+	@JoinColumn([{ name: 'healthInsuranceType_id', referencedColumnName: 'id' }])
+	healthInsuranceType: HealthInsuranceType;
+
+	@OneToMany(() => Schedule, (schedule) => schedule.patient)
+	schedules: Schedule[];
 }
