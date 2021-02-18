@@ -14,7 +14,7 @@ import Procedure from './Procedure';
 
 @Index('fk_healthInsurance_bankData1_idx', ['bankDataId'], {})
 @Entity('healthinsurance', { schema: 'sismed' })
-export default class Healthinsurance {
+export default class HealthInsurance {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -44,7 +44,7 @@ export default class Healthinsurance {
 		() => HealthInsuranceType,
 		(healthinsurancetype) => healthinsurancetype.healthInsurance
 	)
-	healthinsurancetypes: HealthInsuranceType[];
+	healthInsuranceTypes: HealthInsuranceType[];
 
 	@OneToMany(() => Procedure, (procedure) => procedure.healthInsurance)
 	procedures: Procedure[];

@@ -8,13 +8,13 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import Healthinsurance from './HealthInsurance';
+import HealthInsurance from './HealthInsurance';
 import Patient from './Patient';
 import Schedule from './Schedule';
 
 @Index('fk_healthInsuranceType_healthInsurance1_idx', ['healthInsuranceId'], {})
 @Entity('healthinsurancetype', { schema: 'sismed' })
-export default class Healthinsurancetype {
+export default class HealthInsuranceType {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -25,12 +25,12 @@ export default class Healthinsurancetype {
 	healthInsuranceId: number | null;
 
 	@ManyToOne(
-		() => Healthinsurance,
-		(healthinsurance) => healthinsurance.healthinsurancetypes,
+		() => HealthInsurance,
+		(healthInsurance) => healthInsurance.healthInsuranceTypes,
 		{ onDelete: 'NO ACTION', onUpdate: 'NO ACTION' }
 	)
 	@JoinColumn([{ name: 'healthInsurance_id', referencedColumnName: 'id' }])
-	healthInsurance: Healthinsurance;
+	healthInsurance: HealthInsurance;
 
 	@OneToMany(() => Patient, (patient) => patient.healthInsuranceType)
 	patients: Patient[];

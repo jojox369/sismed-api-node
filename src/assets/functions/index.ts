@@ -145,3 +145,93 @@ export const USDateFormatter = (date: string): string => {
 
 	return `${dateFormatted[2]}-${dateFormatted[1]}-${dateFormatted[0]}`;
 };
+
+export const AgeCalculator = (dateBirth: string | null) => {
+	let response = 'Data nascimento não cadastrada';
+
+	if (dateBirth) {
+		const todayDate = new Date();
+		const todayArray = todayDate.toLocaleDateString().split('/');
+		const nascimentoArray = dateBirth.split('-');
+
+		// Informações sobre a data atual
+		const todayYear = Number(todayArray[2]);
+		const todayMonth = Number(todayArray[1]);
+		const todayDay = Number(todayArray[0]);
+
+		// Informações da data de nascimento do paciente
+		const yearNascimento = Number(nascimentoArray[0]);
+		const monthNascimento = Number(nascimentoArray[1]);
+		const dayNascimento = Number(nascimentoArray[2]);
+
+		let age = todayYear - yearNascimento;
+
+		/*Caso o mes atual seja menor que o mes do nascimento
+			aniversario ainda não passou
+		*/
+		if (todayMonth < monthNascimento) {
+			age--;
+		}
+		// Esta no mes do aniversario
+		else if (todayMonth === monthNascimento) {
+			/*Caso o dia atual seja menor que o dia do nascimento
+				aniversario ainda não passou
+			*/
+			if (todayDay < dayNascimento) {
+				age--;
+			}
+		}
+		response = `${age} Anos`;
+	}
+
+	return response;
+};
+
+export const CompareDates = (schedulingDate: string) => {
+	const todayDate = new Date();
+	const schedulingArray = schedulingDate.split('-');
+	const todayArray = todayDate.toLocaleDateString().split('/');
+
+	// Informações sobre a data atual
+	const todayYear = Number(todayArray[2]);
+	const todayMonth = Number(todayArray[1]);
+	const todayDay = Number(todayArray[0]);
+
+	// Informações da data do agendamento
+	const schedulingYear = Number(schedulingArray[0]);
+	const schedulingMonth = Number(schedulingArray[1]);
+	const schedulingDay = Number(schedulingArray[2]);
+
+	// Caso seja ano diferente, não é editavel
+	if (schedulingYear < todayYear) {
+		return false;
+	}
+	// Caso seja mes diferente, não é editavel
+	else if (schedulingMonth < todayMonth) {
+		return false;
+	}
+	// Caso seja dia diferente, não é editavel
+	else if (
+		schedulingDay < todayDay &&
+		schedulingMonth === todayMonth &&
+		schedulingYear === todayYear
+	) {
+		return false;
+	} else {
+		/*Se cair nessa condição, isso quer dizer que a data do agendamento é igual ou maior que a data atual
+	ou seja, o agendamento é editavel
+*/
+		return true;
+	}
+};
+
+export const FormatHealthInsuranceName = (
+	healthInsuranceTypeName: string,
+	healthInsuranceName: string
+) => {
+	if (healthInsuranceTypeName.toLowerCase() === 'particular') {
+		return healthInsuranceTypeName;
+	} else {
+		return `${healthInsuranceName} - ${healthInsuranceTypeName}`;
+	}
+};

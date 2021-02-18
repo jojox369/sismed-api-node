@@ -91,28 +91,15 @@ export default {
 			relations: ['healthInsuranceTypes'],
 		});
 
-		const randomPatient =
-			patients[Math.floor(Math.random() * patients.length)].id;
-		const randomMedic = medics[Math.floor(Math.random() * medics.length)].id;
 		const schedulesArr: Schedule[] = [];
 
 		if (schedules) {
 			for (let i = 0; i < +schedules; i++) {
-				let time = generateTime();
-
-				const verifyHasScheduling = await scheduleRepository.findOne({
-					where: {
-						date: USDateFormatter(new Date().toLocaleDateString()),
-						time,
-						employeeId: randomMedic,
-					},
-				});
-
-				if (verifyHasScheduling) {
-					while (verifyHasScheduling) {
-						time = generateTime();
-					}
-				}
+				const randomPatient =
+					patients[Math.floor(Math.random() * patients.length)].id;
+				const randomMedic =
+					medics[Math.floor(Math.random() * medics.length)].id;
+				const time = generateTime();
 
 				const schedulingData = {
 					date: USDateFormatter(new Date().toLocaleDateString()),

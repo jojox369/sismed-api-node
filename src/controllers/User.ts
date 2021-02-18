@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 
 import Employee from '../models/Employee';
-import EmployeeView from '../views/EmployeeView';
+import EmployeeView from '../views/Employee';
 
 export default {
 	Authentication: async (request: Request, response: Response) => {
@@ -27,7 +27,7 @@ export default {
 					return response.status(401).json({ message: 'Senha inválida' });
 				}
 
-				const token = jwt.sign({ id: employee.id }, secretKey || 'secretKey', {
+				const token = jwt.sign({ id: employee.id }, secretKey || 'secret', {
 					expiresIn: '1d',
 				});
 
