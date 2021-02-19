@@ -1,4 +1,4 @@
-export function Convenios(codconvenio: number): number {
+export function HealthInsurances(codconvenio: number): number {
 	let response = 0;
 	if (codconvenio === 2) {
 		response = 44;
@@ -25,7 +25,7 @@ export function Convenios(codconvenio: number): number {
 	}
 	return response;
 }
-export function Procedimentos(codConvenio: number): number {
+export function Procedures(codConvenio: number): number {
 	let response = 0;
 
 	if (codConvenio === 1) {
@@ -69,11 +69,6 @@ export function Procedimentos(codConvenio: number): number {
 	return response;
 }
 
-export function formatarData(date: string): string {
-	const arrayDate = date.split('-');
-	return arrayDate[2] + '/' + arrayDate[1] + '/' + arrayDate[0];
-}
-
 export const hora = () => {
 	const todayDate = new Date();
 	let hora;
@@ -108,7 +103,7 @@ export const data = () => {
 	return todayYear + '-' + todayMonth + '-' + todayDay;
 };
 
-export const gerarHTML = (nomeFuncionario: string, codigo: string) => {
+export const generateHTML = (nomeFuncionario: string, codigo: string) => {
 	return `
   <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; padding: 40px 30px 40px 30px; font-family: Arial,Helvetica, 
     sans-serif;">
@@ -234,4 +229,10 @@ export const FormatHealthInsuranceName = (
 	} else {
 		return `${healthInsuranceName} - ${healthInsuranceTypeName}`;
 	}
+};
+
+export const StringFormatter = (name: string) => {
+	return name.replace(/(?:^|\s)\S/g, function (a) {
+		return a.toUpperCase();
+	});
 };
