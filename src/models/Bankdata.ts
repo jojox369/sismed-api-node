@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import HealthInsurance from './HealthInsurance';
+import { HealthInsurance } from './HealthInsurance';
 
-@Entity('bankdata', { schema: 'sismed' })
-export default class Bankdata {
+@Entity('bank_data', { schema: 'sismed' })
+export class BankData {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -18,7 +18,7 @@ export default class Bankdata {
 
 	@OneToMany(
 		() => HealthInsurance,
-		(healthinsurance) => healthinsurance.bankData
+		(healthInsurance) => healthInsurance.bankData
 	)
-	healthinsurances: HealthInsurance[];
+	healthInsurances: HealthInsurance[];
 }

@@ -7,13 +7,13 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import Employee from './Employee';
-import Event from './Event';
+import { Employee } from './Employee';
+import { Event } from './Event';
 
 @Index('fk_log_employee1_idx', ['employeeId'], {})
 @Index('fk_log_event1_idx', ['eventId'], {})
 @Entity('log', { schema: 'sismed' })
-export default class Log {
+export class Log {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -23,8 +23,8 @@ export default class Log {
 	@Column('time', { name: 'time' })
 	time: string;
 
-	@Column('varchar', { name: 'descricao', nullable: true, length: 255 })
-	descricao: string | null;
+	@Column('varchar', { name: 'description', nullable: true, length: 255 })
+	description: string | null;
 
 	@Column('int', { name: 'employee_id' })
 	employeeId: number;
@@ -34,14 +34,14 @@ export default class Log {
 
 	@ManyToOne(() => Employee, (employee) => employee.logs, {
 		onDelete: 'NO ACTION',
-		onUpdate: 'NO ACTION',
+		onUpdate: 'CASCADE',
 	})
 	@JoinColumn([{ name: 'employee_id', referencedColumnName: 'id' }])
 	employee: Employee;
 
 	@ManyToOne(() => Event, (event) => event.logs, {
 		onDelete: 'NO ACTION',
-		onUpdate: 'NO ACTION',
+		onUpdate: 'CASCADE',
 	})
 	@JoinColumn([{ name: 'event_id', referencedColumnName: 'id' }])
 	event: Event;

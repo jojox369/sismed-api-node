@@ -3,21 +3,20 @@ import {
 	Entity,
 	Index,
 	JoinColumn,
-	JoinTable,
 	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import Address from './Address';
-import Exam from './Exam';
-import HealthInsuranceType from './HealthInsuranceType';
+import { Address } from './Address';
+import { Exam } from './Exam';
+import { HealthInsuranceType } from './HealthInsuranceType';
 
 @Index('cnpj', ['cnpj'], { unique: true })
 @Index('fk_lab_address1_idx', ['addressId'], {})
 @Entity('lab', { schema: 'sismed' })
-export default class Lab {
+export class Lab {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -44,19 +43,14 @@ export default class Lab {
 
 	@ManyToOne(() => Address, (address) => address.labs, {
 		onDelete: 'NO ACTION',
-		onUpdate: 'NO ACTION',
+		onUpdate: 'CASCADE',
 	})
 	@JoinColumn([{ name: 'address_id', referencedColumnName: 'id' }])
 	address: Address;
 
-	@ManyToMany(() => HealthInsuranceType)
-	@JoinTable({
-		name: 'lab_healthinsurancetype',
-		joinColumns: [{ name: 'lab_id', referencedColumnName: 'id' }],
-		inverseJoinColumns: [
-			{ name: 'healthInsuranceType_id', referencedColumnName: 'id' },
-		],
-		schema: 'sismed',
-	})
-	healthinsurancetypes: HealthInsuranceType[];
+	@ManyToMany(
+		() => HealthInsuranceType,
+		(healthInsuranceType) => healthInsuranceType.labs
+	)
+	healthInsuranceTypes: HealthInsuranceType[];
 }

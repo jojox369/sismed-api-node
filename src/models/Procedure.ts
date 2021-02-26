@@ -8,12 +8,12 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import HealthInsurance from './HealthInsurance';
-import Schedule from './Schedule';
+import { HealthInsurance } from './HealthInsurance';
+import { Schedule } from './Schedule';
 
 @Index('fk_procedure_healthInsurance1_idx', ['healthInsuranceId'], {})
 @Entity('procedure', { schema: 'sismed' })
-export default class Procedure {
+export class Procedure {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -28,8 +28,8 @@ export default class Procedure {
 
 	@ManyToOne(
 		() => HealthInsurance,
-		(healthinsurance) => healthinsurance.procedures,
-		{ onDelete: 'NO ACTION', onUpdate: 'NO ACTION' }
+		(healthInsurance) => healthInsurance.procedures,
+		{ onDelete: 'NO ACTION', onUpdate: 'CASCADE' }
 	)
 	@JoinColumn([{ name: 'healthInsurance_id', referencedColumnName: 'id' }])
 	healthInsurance: HealthInsurance;

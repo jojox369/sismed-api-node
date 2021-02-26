@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import Log from './Log';
+import { Log } from './Log';
 
 @Entity('event', { schema: 'sismed' })
-export default class Event {
+export class Event {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
