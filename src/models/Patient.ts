@@ -112,6 +112,7 @@ export class Patient {
 	@ManyToOne(() => Address, (address) => address.patients, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
+		cascade: true,
 	})
 	@JoinColumn([{ name: 'address_id', referencedColumnName: 'id' }])
 	address: Address;
