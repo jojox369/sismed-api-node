@@ -1,7 +1,6 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToMany,
 	ManyToOne,
@@ -9,14 +8,12 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Address } from './Address';
-import { Exam } from './Exam';
-import { HealthInsuranceType } from './HealthInsuranceType';
+import Address from './Address';
+import Exam from './Exam';
+import HealthInsuranceType from './HealthInsuranceType';
 
-@Index('cnpj', ['cnpj'], { unique: true })
-@Index('fk_lab_address1_idx', ['addressId'], {})
-@Entity('lab', { schema: 'sismed' })
-export class Lab {
+@Entity('lab')
+export default class Lab {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

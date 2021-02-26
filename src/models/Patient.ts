@@ -1,26 +1,20 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Address } from './Address';
-import { ClinicalRegister } from './ClinicalRegister';
-import { Exam } from './Exam';
-import { HealthInsuranceType } from './HealthInsuranceType';
-import { Schedule } from './Schedule';
+import Address from './Address';
+import ClinicalRegister from './ClinicalRegister';
+import Exam from './Exam';
+import HealthInsuranceType from './HealthInsuranceType';
+import Schedule from './Schedule';
 
-@Index('cpf', ['cpf'], { unique: true })
-@Index('rg', ['rg'], { unique: true })
-@Index('healthInsuranceNumber', ['healthInsuranceNumber'], { unique: true })
-@Index('fk_patient_address1_idx', ['addressId'], {})
-@Index('fk_patient_healthInsuranceType1_idx', ['healthInsuranceTypeId'], {})
-@Entity('patient', { schema: 'sismed' })
-export class Patient {
+@Entity('patient')
+export default class Patient {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

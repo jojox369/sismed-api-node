@@ -1,20 +1,18 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { BankData } from './BankData';
-import { HealthInsuranceType } from './HealthInsuranceType';
-import { Procedure } from './Procedure';
+import BankData from './BankData';
+import HealthInsuranceType from './HealthInsuranceType';
+import Procedure from './Procedure';
 
-@Index('fk_healthInsurance_bankData1_idx', ['bankDataId'], {})
-@Entity('health_insurance', { schema: 'sismed' })
-export class HealthInsurance {
+@Entity('health_insurance')
+export default class HealthInsurance {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

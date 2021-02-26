@@ -1,7 +1,6 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	JoinTable,
 	ManyToMany,
@@ -10,15 +9,14 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Employee } from './Employee';
-import { HealthInsurance } from './HealthInsurance';
-import { Lab } from './Lab';
-import { Patient } from './Patient';
-import { Schedule } from './Schedule';
+import Employee from './Employee';
+import HealthInsurance from './HealthInsurance';
+import Lab from './Lab';
+import Patient from './Patient';
+import Schedule from './Schedule';
 
-@Index('fk_healthInsuranceType_healthInsurance1_idx', ['healthInsuranceId'], {})
-@Entity('health_insurance_type', { schema: 'sismed' })
-export class HealthInsuranceType {
+@Entity('health_insurance_type')
+export default class HealthInsuranceType {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

@@ -1,7 +1,6 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	JoinTable,
 	ManyToMany,
@@ -10,20 +9,15 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Address } from './Address';
-import { ClinicalRegister } from './ClinicalRegister';
-import { HealthInsuranceType } from './HealthInsuranceType';
-import { Log } from './Log';
-import { Perfil } from './Perfil';
-import { Schedule } from './Schedule';
+import Address from './Address';
+import ClinicalRegister from './ClinicalRegister';
+import HealthInsuranceType from './HealthInsuranceType';
+import Log from './Log';
+import Profile from './Profile';
+import Schedule from './Schedule';
 
-@Index('cpf_UNIQUE', ['cpf'], { unique: true })
-@Index('rg_UNIQUE', ['rg'], { unique: true })
-@Index('crm_UNIQUE', ['crm'], { unique: true })
-@Index('fk_employee_address1_idx', ['addressId'], {})
-@Index('fk_employee_perfil1_idx', ['perfilId'], {})
-@Entity('employee', { schema: 'sismed' })
-export class Employee {
+@Entity('employee')
+export default class Employee {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
@@ -107,12 +101,12 @@ export class Employee {
 	@JoinColumn([{ name: 'address_id', referencedColumnName: 'id' }])
 	address: Address;
 
-	@ManyToOne(() => Perfil, (perfil) => perfil.employees, {
+	@ManyToOne(() => Profile, (profile) => profile.employees, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
 	})
-	@JoinColumn([{ name: 'perfil_id', referencedColumnName: 'id' }])
-	perfil: Perfil;
+	@JoinColumn([{ name: 'profile_id', referencedColumnName: 'id' }])
+	profile: Profile;
 
 	@ManyToMany(
 		() => HealthInsuranceType,

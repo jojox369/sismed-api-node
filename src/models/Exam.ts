@@ -1,19 +1,16 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Lab } from './Lab';
-import { Patient } from './Patient';
+import Lab from './Lab';
+import Patient from './Patient';
 
-@Index('fk_exam_patient1_idx', ['patientId'], {})
-@Index('fk_exam_lab1_idx', ['labId'], {})
-@Entity('exam', { schema: 'sismed' })
-export class Exam {
+@Entity('exam')
+export default class Exam {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

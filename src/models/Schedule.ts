@@ -1,25 +1,20 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { ClinicalRegister } from './ClinicalRegister';
-import { Employee } from './Employee';
-import { HealthInsuranceType } from './HealthInsuranceType';
-import { Patient } from './Patient';
-import { Procedure } from './Procedure';
+import ClinicalRegister from './ClinicalRegister';
+import Employee from './Employee';
+import HealthInsuranceType from './HealthInsuranceType';
+import Patient from './Patient';
+import Procedure from './Procedure';
 
-@Index('fk_schedule_employee_idx', ['employeeId'], {})
-@Index('fk_schedule_patient1_idx', ['patientId'], {})
-@Index('fk_schedule_procedure1_idx', ['procedureId'], {})
-@Index('fk_schedule_healthInsuranceType1_idx', ['healthInsuranceTypeId'], {})
-@Entity('schedule', { schema: 'sismed' })
-export class Schedule {
+@Entity('schedule')
+export default class Schedule {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 

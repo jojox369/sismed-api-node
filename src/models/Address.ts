@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Employee } from './Employee';
-import { Lab } from './Lab';
-import { Patient } from './Patient';
+import Employee from './Employee';
+import Lab from './Lab';
+import Patient from './Patient';
 
-@Entity('address', { schema: 'sismed' })
-export class Address {
+@Entity('address')
+export default class Address {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
