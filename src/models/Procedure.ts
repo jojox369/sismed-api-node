@@ -21,7 +21,7 @@ export default class Procedure {
 	@Column('decimal', { name: 'value', precision: 7, scale: 2 })
 	value: string;
 
-	@Column('int', { name: 'healthInsurance_id', nullable: true })
+	@Column('int', { name: 'health_insurance_id', nullable: true })
 	healthInsuranceId: number | null;
 
 	@ManyToOne(
@@ -29,7 +29,7 @@ export default class Procedure {
 		(healthInsurance) => healthInsurance.procedures,
 		{ onDelete: 'NO ACTION', onUpdate: 'CASCADE' }
 	)
-	@JoinColumn([{ name: 'healthInsurance_id', referencedColumnName: 'id' }])
+	@JoinColumn([{ name: 'health_insurance_id', referencedColumnName: 'id' }])
 	healthInsurance: HealthInsurance;
 
 	@OneToMany(() => Schedule, (schedule) => schedule.procedure)

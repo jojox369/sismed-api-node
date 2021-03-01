@@ -27,31 +27,31 @@ export default class Patient {
 	@Column('varchar', { name: 'rg', nullable: true, unique: true, length: 9 })
 	rg: string | null;
 
-	@Column('varchar', { name: 'emittingOrgan', nullable: true, length: 20 })
+	@Column('varchar', { name: 'emitting_organ', nullable: true, length: 20 })
 	emittingOrgan: string | null;
 
-	@Column('date', { name: 'emittingDate', nullable: true })
+	@Column('date', { name: 'emitting_date', nullable: true })
 	emittingDate: string | null;
 
 	@Column('varchar', { name: 'phone', nullable: true, length: 10 })
 	phone: string | null;
 
-	@Column('varchar', { name: 'jobPhone', nullable: true, length: 10 })
+	@Column('varchar', { name: 'job_phone', nullable: true, length: 10 })
 	jobPhone: string | null;
 
-	@Column('varchar', { name: 'cellPhone', nullable: true, length: 11 })
+	@Column('varchar', { name: 'cell_phone', nullable: true, length: 11 })
 	cellPhone: string | null;
 
 	@Column('varchar', { name: 'sex', nullable: true, length: 1 })
 	sex: string | null;
 
-	@Column('date', { name: 'dateBirth', nullable: true })
+	@Column('date', { name: 'date_birth', nullable: true })
 	dateBirth: string | null;
 
 	@Column('varchar', { name: 'email', nullable: true, length: 50 })
 	email: string | null;
 
-	@Column('varchar', { name: 'maritalStatus', nullable: true, length: 1 })
+	@Column('varchar', { name: 'marital_status', nullable: true, length: 1 })
 	maritalStatus: string | null;
 
 	@Column('varchar', { name: 'schooling', nullable: true, length: 3 })
@@ -78,7 +78,7 @@ export default class Patient {
 	recommendation: string | null;
 
 	@Column('varchar', {
-		name: 'healthInsuranceNumber',
+		name: 'health_insurance_number',
 		nullable: true,
 		unique: true,
 		length: 50,
@@ -91,7 +91,7 @@ export default class Patient {
 	@Column('int', { name: 'address_id' })
 	addressId: number;
 
-	@Column('int', { name: 'healthInsuranceType_id' })
+	@Column('int', { name: 'health_insurance_type_id' })
 	healthInsuranceTypeId: number;
 
 	@OneToMany(
@@ -116,7 +116,9 @@ export default class Patient {
 		(healthInsuranceType) => healthInsuranceType.patients,
 		{ onDelete: 'NO ACTION', onUpdate: 'CASCADE' }
 	)
-	@JoinColumn([{ name: 'healthInsuranceType_id', referencedColumnName: 'id' }])
+	@JoinColumn([
+		{ name: 'health_insurance_type_id', referencedColumnName: 'id' },
+	])
 	healthInsuranceType: HealthInsuranceType;
 
 	@OneToMany(() => Schedule, (schedule) => schedule.patient)

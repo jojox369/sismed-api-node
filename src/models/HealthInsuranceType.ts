@@ -23,7 +23,7 @@ export default class HealthInsuranceType {
 	@Column('varchar', { name: 'name', length: 45 })
 	name: string;
 
-	@Column('int', { name: 'healthInsurance_id', nullable: true })
+	@Column('int', { name: 'health_insurance_id', nullable: true })
 	healthInsuranceId: number | null;
 
 	@ManyToMany(() => Employee, (employee) => employee.healthInsuranceTypes)
@@ -34,17 +34,16 @@ export default class HealthInsuranceType {
 		(healthInsurance) => healthInsurance.healthInsuranceTypes,
 		{ onDelete: 'NO ACTION', onUpdate: 'CASCADE' }
 	)
-	@JoinColumn([{ name: 'healthInsurance_id', referencedColumnName: 'id' }])
+	@JoinColumn([{ name: 'health_insurance_id', referencedColumnName: 'id' }])
 	healthInsurance: HealthInsurance;
 
 	@ManyToMany(() => Lab, (lab) => lab.healthInsuranceTypes)
 	@JoinTable({
 		name: 'lab_health_insurance_type',
 		joinColumns: [
-			{ name: 'healthInsuranceType_id', referencedColumnName: 'id' },
+			{ name: 'health_insuranceType_id', referencedColumnName: 'id' },
 		],
 		inverseJoinColumns: [{ name: 'lab_id', referencedColumnName: 'id' }],
-		schema: 'sismed',
 	})
 	labs: Lab[];
 

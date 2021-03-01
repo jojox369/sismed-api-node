@@ -25,7 +25,7 @@ export default class Schedule {
 	time: string;
 
 	@Column('tinyint', {
-		name: 'firstTime',
+		name: 'first_time',
 		nullable: true,
 		width: 1,
 		default: () => "'1'",

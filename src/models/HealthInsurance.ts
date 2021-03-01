@@ -19,23 +19,23 @@ export default class HealthInsurance {
 	@Column('varchar', { name: 'name', length: 45 })
 	name: string;
 
-	@Column('date', { name: 'accessionDate' })
+	@Column('date', { name: 'accession_date' })
 	accessionDate: string;
 
 	@Column('varchar', { name: 'cnpj', nullable: true, length: 14 })
 	cnpj: string | null;
 
-	@Column('varchar', { name: 'ansRegister', nullable: true, length: 6 })
+	@Column('varchar', { name: 'ans_register', nullable: true, length: 6 })
 	ansRegister: string | null;
 
-	@Column('int', { name: 'bankData_id', nullable: true })
+	@Column('int', { name: 'bank_data_id', nullable: true })
 	bankDataId: number | null;
 
 	@ManyToOne(() => BankData, (bankData) => bankData.healthInsurances, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
 	})
-	@JoinColumn([{ name: 'bankData_id', referencedColumnName: 'id' }])
+	@JoinColumn([{ name: 'bank_data_id', referencedColumnName: 'id' }])
 	bankData: BankData;
 
 	@OneToMany(

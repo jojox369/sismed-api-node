@@ -20,16 +20,16 @@ export default class Exam {
 	@Column('varchar', { name: 'description', length: 250 })
 	description: string;
 
-	@Column('date', { name: 'collectionDate' })
+	@Column('date', { name: 'collection_date' })
 	collectionDate: string;
 
-	@Column('date', { name: 'sendDate' })
+	@Column('date', { name: 'send_date' })
 	sendDate: string;
 
-	@Column('date', { name: 'returnDate', nullable: true })
+	@Column('date', { name: 'return_date', nullable: true })
 	returnDate: string | null;
 
-	@Column('varchar', { name: 'labEmployee', length: 45 })
+	@Column('varchar', { name: 'lab_employee', length: 45 })
 	labEmployee: string;
 
 	@Column('decimal', {

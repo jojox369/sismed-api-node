@@ -30,28 +30,28 @@ export default class Employee {
 	@Column('varchar', { name: 'rg', unique: true, length: 9 })
 	rg: string;
 
-	@Column('varchar', { name: 'emittingOrgan', length: 20 })
+	@Column('varchar', { name: 'emitting_organ', length: 20 })
 	emittingOrgan: string;
 
-	@Column('date', { name: 'emittingDate' })
+	@Column('date', { name: 'emitting_date' })
 	emittingDate: string;
 
 	@Column('varchar', { name: 'phone', length: 10 })
 	phone: string;
 
-	@Column('varchar', { name: 'cellPhone', length: 11 })
+	@Column('varchar', { name: 'cell_phone', length: 11 })
 	cellPhone: string;
 
 	@Column('varchar', { name: 'sex', length: 1 })
 	sex: string;
 
-	@Column('date', { name: 'dateBirth' })
+	@Column('date', { name: 'date_birth' })
 	dateBirth: string;
 
 	@Column('varchar', { name: 'email', length: 50 })
 	email: string;
 
-	@Column('varchar', { name: 'maritalStatus', length: 1 })
+	@Column('varchar', { name: 'marital_status', length: 1 })
 	maritalStatus: string;
 
 	@Column('varchar', { name: 'schooling', length: 3 })
@@ -63,10 +63,10 @@ export default class Employee {
 	@Column('varchar', { name: 'nationality', length: 1 })
 	nationality: string;
 
-	@Column('date', { name: 'beginDate' })
+	@Column('date', { name: 'begin_date' })
 	beginDate: string;
 
-	@Column('date', { name: 'dismissalDate', nullable: true })
+	@Column('date', { name: 'dismissal_date', nullable: true })
 	dismissalDate: string | null;
 
 	@Column('varchar', { name: 'crm', nullable: true, unique: true, length: 50 })
@@ -75,7 +75,7 @@ export default class Employee {
 	@Column('varchar', { name: 'specialty', nullable: true, length: 45 })
 	specialty: string | null;
 
-	@Column('varchar', { name: 'recoveryCode', nullable: true, length: 16 })
+	@Column('varchar', { name: 'recovery_code', nullable: true, length: 16 })
 	recoveryCode: string | null;
 
 	@Column('varchar', { name: 'password', length: 255 })
