@@ -84,8 +84,8 @@ export default class Employee {
 	@Column('int', { name: 'address_id' })
 	addressId: number;
 
-	@Column('int', { name: 'perfil_id' })
-	perfilId: number;
+	@Column('int', { name: 'profile_id' })
+	profileId: number;
 
 	@OneToMany(
 		() => ClinicalRegister,
