@@ -9,7 +9,7 @@ export default class Address {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
-	@Column('varchar', { name: 'zipCode', nullable: true, length: 10 })
+	@Column('varchar', { name: 'zip_code', nullable: true, length: 10 })
 	zipCode: string | null;
 
 	@Column('varchar', { name: 'street', nullable: true, length: 255 })

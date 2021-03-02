@@ -116,7 +116,7 @@ export default class Employee {
 		name: 'employee_health_insurance_type',
 		joinColumns: [{ name: 'employee_id', referencedColumnName: 'id' }],
 		inverseJoinColumns: [
-			{ name: 'healthInsuranceType_id', referencedColumnName: 'id' },
+			{ name: 'health_insurance_type_id', referencedColumnName: 'id' },
 		],
 		schema: 'sismed',
 	})

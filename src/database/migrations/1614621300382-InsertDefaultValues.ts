@@ -11,6 +11,10 @@ export class InsertDefaultValues1614621300382 implements MigrationInterface {
 		);
 
 		await queryRunner.query(
+			'INSERT INTO `procedure` (`id`, `name`, `value`, `health_insurance_id`) VALUES (1, "CONSULTA", 150, 1);'
+		);
+
+		await queryRunner.query(
 			'INSERT INTO `profile` (`id`, `type`) VALUES (1, "Admin");'
 		);
 
@@ -39,6 +43,8 @@ export class InsertDefaultValues1614621300382 implements MigrationInterface {
 		await queryRunner.query(
 			'DELETE FROM `health_insurance_type` WHERE id = 1 '
 		);
+
+		await queryRunner.query('DELETE FROM `procedure` WHERE id = 1 ');
 
 		await queryRunner.query('DELETE FROM `health_insurance` WHERE id = 1 ');
 

@@ -76,6 +76,7 @@ export default {
 			return response.json(patientsFormatted);
 		}
 	},
+
 	generateSchedule: async (request: Request, response: Response) => {
 		const { schedules } = request.body;
 
@@ -86,7 +87,7 @@ export default {
 
 		const medics = await employeeRepository.find({
 			where: {
-				perfilId: Not(3),
+				profileId: Not(3),
 			},
 			relations: ['healthInsuranceTypes'],
 		});

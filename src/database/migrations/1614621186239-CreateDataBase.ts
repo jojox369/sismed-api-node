@@ -39,16 +39,16 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			'CREATE TABLE `profile` (`id` int NOT NULL AUTO_INCREMENT, `type` varchar(45) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
-			'CREATE TABLE `employee` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NOT NULL, `rg` varchar(9) NOT NULL, `emitting_organ` varchar(20) NOT NULL, `emitting_date` date NOT NULL, `phone` varchar(10) NOT NULL, `cell_phone` varchar(11) NOT NULL, `sex` varchar(1) NOT NULL, `date_birth` date NOT NULL, `email` varchar(50) NOT NULL, `marital_status` varchar(1) NOT NULL, `schooling` varchar(3) NOT NULL, `naturalness` varchar(45) NOT NULL, `nationality` varchar(1) NOT NULL, `begin_date` date NOT NULL, `dismissal_date` date NULL, `crm` varchar(50) NULL, `specialty` varchar(45) NULL, `recovery_code` varchar(16) NULL, `password` varchar(255) NOT NULL, `address_id` int NOT NULL, `perfil_id` int NOT NULL, `profile_id` int NULL, UNIQUE INDEX `IDX_cc5bc3cbcb7312fbc898749c5b` (`cpf`), UNIQUE INDEX `IDX_733ef14870ef56a82761d2fa47` (`rg`), UNIQUE INDEX `IDX_887b54402180f09ae830aa37dd` (`crm`), PRIMARY KEY (`id`)) ENGINE=InnoDB'
+			'CREATE TABLE `employee` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NOT NULL, `rg` varchar(9) NOT NULL, `emitting_organ` varchar(20) NOT NULL, `emitting_date` date NOT NULL, `phone` varchar(10) NOT NULL, `cell_phone` varchar(11) NOT NULL, `sex` varchar(1) NOT NULL, `date_birth` date NOT NULL, `email` varchar(50) NOT NULL, `marital_status` varchar(1) NOT NULL, `schooling` varchar(3) NOT NULL, `naturalness` varchar(45) NOT NULL, `nationality` varchar(1) NOT NULL, `begin_date` date NOT NULL, `dismissal_date` date NULL, `crm` varchar(50) NULL, `specialty` varchar(45) NULL, `recovery_code` varchar(16) NULL, `password` varchar(255) NOT NULL, `address_id` int NOT NULL,  `profile_id` int NULL, UNIQUE INDEX `IDX_cc5bc3cbcb7312fbc898749c5b` (`cpf`), UNIQUE INDEX `IDX_733ef14870ef56a82761d2fa47` (`rg`), UNIQUE INDEX `IDX_887b54402180f09ae830aa37dd` (`crm`), PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
-			'CREATE TABLE `address` (`id` int NOT NULL AUTO_INCREMENT, `zipCode` varchar(10) NULL, `street` varchar(255) NULL, `number` smallint NULL, `complement` varchar(45) NULL, `district` varchar(45) NULL, `city` varchar(45) NULL, `state` varchar(2) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
+			'CREATE TABLE `address` (`id` int NOT NULL AUTO_INCREMENT, `zip_code` varchar(10) NULL, `street` varchar(255) NULL, `number` smallint NULL, `complement` varchar(45) NULL, `district` varchar(45) NULL, `city` varchar(45) NULL, `state` varchar(2) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
 			'CREATE TABLE `lab_health_insurance_type` (`health_insuranceType_id` int NOT NULL, `lab_id` int NOT NULL, INDEX `IDX_08e8875bb42ccf5e7b4835ceb4` (`health_insuranceType_id`), INDEX `IDX_f8f6f6547cc88e138876d315d5` (`lab_id`), PRIMARY KEY (`health_insuranceType_id`, `lab_id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
-			'CREATE TABLE `employee_health_insurance_type` (`employee_id` int NOT NULL, `healthInsuranceType_id` int NOT NULL, INDEX `IDX_93fd4f1b80934562d6cd7ebfe3` (`employee_id`), INDEX `IDX_41e47831dc1b91a1cc914a2806` (`healthInsuranceType_id`), PRIMARY KEY (`employee_id`, `healthInsuranceType_id`)) ENGINE=InnoDB'
+			'CREATE TABLE `employee_health_insurance_type` (`employee_id` int NOT NULL, `health_insurance_type_id` int NOT NULL, INDEX `IDX_93fd4f1b80934562d6cd7ebfe3` (`employee_id`), INDEX `IDX_41e47831dc1b91a1cc914a2806` (`health_insurance_type_id`), PRIMARY KEY (`employee_id`, `health_insurance_type_id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
 			'ALTER TABLE `schedule` ADD CONSTRAINT `FK_c37456a306af86b238b6839b1c9` FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
@@ -117,7 +117,7 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			'ALTER TABLE `employee_health_insurance_type` ADD CONSTRAINT `FK_93fd4f1b80934562d6cd7ebfe35` FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `employee_health_insurance_type` ADD CONSTRAINT `FK_41e47831dc1b91a1cc914a28066` FOREIGN KEY (`healthInsuranceType_id`) REFERENCES `health_insurance_type`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION'
+			'ALTER TABLE `employee_health_insurance_type` ADD CONSTRAINT `FK_41e47831dc1b91a1cc914a28066` FOREIGN KEY (`health_insurance_type_id`) REFERENCES `health_insurance_type`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION'
 		);
 	}
 
