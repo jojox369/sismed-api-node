@@ -6,8 +6,8 @@ import { getRepository } from 'typeorm';
 import Employee from '../models/Employee';
 import EmployeeView from '../views/Employee';
 
-export default {
-	Authentication: async (request: Request, response: Response) => {
+class UserController {
+	async authentication(request: Request, response: Response) {
 		const { username, password } = request.body;
 		const repository = getRepository(Employee);
 		const employee = await repository.findOne({ cpf: username });
@@ -36,5 +36,7 @@ export default {
 		} else {
 			return response.status(500).json({ message: 'CPF não encontrado' });
 		}
-	},
-};
+	}
+}
+
+export default new UserController();

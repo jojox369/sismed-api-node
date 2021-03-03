@@ -15,10 +15,10 @@ export default class ClinicalRegister {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
-	@Column('date', { name: 'date' })
+	@Column('date', { name: 'date', default: () => "'now()'" })
 	date: string;
 
-	@Column('time', { name: 'time' })
+	@Column('time', { name: 'time', default: () => "'now()'" })
 	time: string;
 
 	@Column('longtext', { name: 'description' })

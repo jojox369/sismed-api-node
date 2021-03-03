@@ -4,6 +4,6 @@ import UserController from '../controllers/User';
 
 const Routers = Router();
 
-Routers.post('/auth', UserController.Authentication);
+Routers.post('/auth', UserController.authentication);
 
 export default Routers;

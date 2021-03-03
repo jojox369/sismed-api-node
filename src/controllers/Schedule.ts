@@ -4,8 +4,8 @@ import { getRepository } from 'typeorm';
 import Schedule from '../models/Schedule';
 import ScheduleView from '../views/Schedule';
 
-export default {
-	List: async (request: Request, response: Response) => {
+class ScheduleController {
+	async list(request: Request, response: Response) {
 		const { medicId, date } = request.query;
 		const repository = getRepository(Schedule);
 
@@ -33,5 +33,20 @@ export default {
 
 			return response.json(ScheduleView.list(schedules));
 		}
-	},
-};
+	}
+	async getById(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(Schedule);
+		const scheduling = await repository.findOne({
+			where: { id },
+			relations: [
+				'patient',
+				'patient.healthInsuranceType',
+				'patient.healthInsuranceType.healthInsurance',
+			],
+		});
+		return response.json(ScheduleView.attendance(scheduling as Schedule));
+	}
+}
+
+export default new ScheduleController();

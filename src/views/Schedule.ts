@@ -18,10 +18,12 @@ export default {
 				finished: scheduling.finished,
 				rescheduled: scheduling.rescheduled,
 				attended: scheduling.attended,
-				patientId: scheduling.patientId,
-				patientName: scheduling.patient.name,
-				patientAge: AgeCalculator(scheduling.patient.dateBirth),
-				patientCellPhone: scheduling.patient.cellPhone,
+				patient: {
+					id: scheduling.patientId,
+					name: scheduling.patient.name,
+					age: AgeCalculator(scheduling.patient.dateBirth),
+					cellPhone: scheduling.patient.cellPhone,
+				},
 				healthInsurance: FormatHealthInsuranceName(
 					scheduling.healthInsuranceType.name,
 					scheduling.healthInsuranceType.healthInsurance.name
@@ -30,5 +32,19 @@ export default {
 				notes: scheduling.notes,
 			};
 		});
+	},
+	attendance(scheduling: Schedule) {
+		return {
+			id: scheduling.id,
+			firstTime: scheduling.firstTime,
+			employeeId: scheduling.employeeId,
+			notes: scheduling.notes,
+			patient: {
+				id: scheduling.patientId,
+				name: scheduling.patient.name,
+				age: AgeCalculator(scheduling.patient.dateBirth),
+				cellPhone: scheduling.patient.cellPhone,
+			},
+		};
 	},
 };

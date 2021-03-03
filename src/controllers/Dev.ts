@@ -31,8 +31,9 @@ interface PatientData {
 	tipo_sanguineo: string;
 	cor: string;
 }
-export default {
-	registerPatient: async (request: Request, response: Response) => {
+
+class DevController {
+	async registerPatient(request: Request, response: Response) {
 		const patients: PatientData[] = request.body;
 		const repository = getRepository(Patient);
 		let hasError = false;
@@ -75,9 +76,8 @@ export default {
 		} else {
 			return response.json(patientsFormatted);
 		}
-	},
-
-	generateSchedule: async (request: Request, response: Response) => {
+	}
+	async generateSchedule(request: Request, response: Response) {
 		const { schedules } = request.body;
 
 		const patientRepository = getRepository(Patient);
@@ -119,8 +119,8 @@ export default {
 		}
 
 		return response.json(schedulesArr);
-	},
-};
+	}
+}
 
 const generateTime = () => {
 	const random1 = Math.floor(Math.random() * (1 + 1));
@@ -134,3 +134,5 @@ const generateTime = () => {
 		random1 + '' + random2 + ':' + arr[Math.floor(Math.random() * arr.length)];
 	return time;
 };
+
+export default new DevController();
