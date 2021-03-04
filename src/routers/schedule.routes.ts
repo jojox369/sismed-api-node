@@ -2,9 +2,11 @@ import { Router } from 'express';
 
 import ScheduleController from '../controllers/Schedule';
 
+const scheduleController = new ScheduleController();
+
 const Routers = Router();
 
-Routers.get('/', ScheduleController.list);
-Routers.get('/:id', ScheduleController.getById);
+Routers.get('/', scheduleController.list);
+Routers.get('/:id', scheduleController.getById);
 
 export default Routers;

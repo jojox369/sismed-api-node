@@ -4,6 +4,8 @@ import { getRepository } from 'typeorm';
 import Schedule from '../models/Schedule';
 import ScheduleView from '../views/Schedule';
 
+const scheduleView = new ScheduleView();
+
 class ScheduleController {
 	async list(request: Request, response: Response) {
 		const { medicId, date } = request.query;
@@ -31,7 +33,7 @@ class ScheduleController {
 				],
 			});
 
-			return response.json(ScheduleView.list(schedules));
+			return response.json(scheduleView.list(schedules));
 		}
 	}
 	async getById(request: Request, response: Response) {
@@ -45,8 +47,8 @@ class ScheduleController {
 				'patient.healthInsuranceType.healthInsurance',
 			],
 		});
-		return response.json(ScheduleView.attendance(scheduling as Schedule));
+		return response.json(scheduleView.attendance(scheduling as Schedule));
 	}
 }
 
-export default new ScheduleController();
+export default ScheduleController;

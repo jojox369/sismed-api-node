@@ -5,7 +5,7 @@ import {
 } from '../assets/functions';
 import Schedule from '../models/Schedule';
 
-export default {
+class ScheduleView {
 	list(schedule: Schedule[]) {
 		return schedule.map((scheduling) => {
 			return {
@@ -32,7 +32,7 @@ export default {
 				notes: scheduling.notes,
 			};
 		});
-	},
+	}
 	attendance(scheduling: Schedule) {
 		return {
 			id: scheduling.id,
@@ -46,5 +46,7 @@ export default {
 				cellPhone: scheduling.patient.cellPhone,
 			},
 		};
-	},
-};
+	}
+}
+
+export default ScheduleView;

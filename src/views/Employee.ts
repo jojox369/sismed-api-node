@@ -1,16 +1,16 @@
 import Employee from '../models/Employee';
 
-export default {
-	Authentication(employee: Employee, token: string) {
+class EmployeeView {
+	authentication(employee: Employee, token: string) {
 		return {
 			id: employee.id,
-			perfil: employee.perfilId,
+			perfil: employee.profileId,
 			name: employee.name,
 			token,
 		};
-	},
+	}
 
-	Details(employee: Employee) {
+	details(employee: Employee) {
 		return {
 			id: employee.id,
 			name: employee.name,
@@ -31,7 +31,7 @@ export default {
 			beginDate: employee.beginDate,
 			dismissalDate: employee.dismissalDate,
 			nationality: employee.nationality,
-			perfilId: employee.perfilId,
+			profileId: employee.profileId,
 			address: {
 				id: employee.address.id,
 				zipCode: employee.address.zipCode,
@@ -43,7 +43,7 @@ export default {
 				state: employee.address.state,
 			},
 		};
-	},
+	}
 
 	employees(employee: Employee[]) {
 		return employee.map((func) => ({
@@ -58,9 +58,11 @@ export default {
 
 			email: func.email,
 		}));
-	},
+	}
 
 	medicos(medicos: Employee[]) {
 		return medicos.map((medico) => ({ id: medico.id, name: medico.name }));
-	},
-};
+	}
+}
+
+export default EmployeeView;

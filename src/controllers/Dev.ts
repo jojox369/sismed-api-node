@@ -135,4 +135,4 @@ const generateTime = () => {
 	return time;
 };
 
-export default new DevController();
+export default DevController;

@@ -11,4 +11,4 @@ class PatientController {
 	}
 }
 
-export default new PatientController();
+export default PatientController;

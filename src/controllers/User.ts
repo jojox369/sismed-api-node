@@ -6,6 +6,8 @@ import { getRepository } from 'typeorm';
 import Employee from '../models/Employee';
 import EmployeeView from '../views/Employee';
 
+const employeeView = new EmployeeView();
+
 class UserController {
 	async authentication(request: Request, response: Response) {
 		const { username, password } = request.body;
@@ -31,7 +33,7 @@ class UserController {
 					expiresIn: '1d',
 				});
 
-				return response.json(EmployeeView.Authentication(employee, token));
+				return response.json(employeeView.authentication(employee, token));
 			}
 		} else {
 			return response.status(500).json({ message: 'CPF não encontrado' });
@@ -39,4 +41,4 @@ class UserController {
 	}
 }
 
-export default new UserController();
+export default UserController;
