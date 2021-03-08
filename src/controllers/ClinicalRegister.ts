@@ -12,7 +12,14 @@ class ClinicalRegisterController {
 		const repository = getRepository(ClinicalRegister);
 		if (patientId && medicId) {
 			const registers = await repository.find({
-				where: { patientId, employeeId: medicId },
+				where: {
+					patientId,
+					employeeId: medicId,
+				},
+				order: {
+					date: 'DESC',
+					time: 'DESC',
+				},
 			});
 			return response.json(clinicalRegister.previousRegisters(registers));
 		}

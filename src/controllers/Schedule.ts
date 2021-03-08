@@ -49,6 +49,49 @@ class ScheduleController {
 		});
 		return response.json(scheduleView.attendance(scheduling as Schedule));
 	}
+
+	async update(request: Request, response: Response) {
+		const {
+			id,
+			date,
+			time,
+			attended,
+			paid,
+			rescheduled,
+			finished,
+			notes,
+			employeeId,
+			patientId,
+			healthInsuranceTypeId,
+			procedureId,
+		} = request.body;
+		const repository = getRepository(Schedule);
+		const scheduling = await repository.findOne({ id });
+		const data = {
+			id,
+			date: date || scheduling?.date,
+			time: time || scheduling?.time,
+			attended: attended || scheduling?.attended,
+			paid: paid || scheduling?.paid,
+			rescheduled: rescheduled || scheduling?.rescheduled,
+			finished: finished || scheduling?.finished,
+			notes: notes || scheduling?.notes,
+			employeeId: employeeId || scheduling?.employeeId,
+			patientId: patientId || scheduling?.patientId,
+			healthInsuranceTypeId:
+				healthInsuranceTypeId || scheduling?.healthInsuranceTypeId,
+			procedureId: procedureId || scheduling?.procedureId,
+		};
+		const updatedScheduling = repository.create(data);
+		try {
+			await repository.save(updatedScheduling);
+			return response.json({ message: 'Scheduling updated sucesseed ' });
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when trying to update scheduling' });
+		}
+	}
 }
 
 export default ScheduleController;
