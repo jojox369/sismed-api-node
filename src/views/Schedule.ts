@@ -33,11 +33,16 @@ class ScheduleView {
 			};
 		});
 	}
-	attendance(scheduling: Schedule) {
+	details(scheduling: Schedule) {
 		return {
 			id: scheduling.id,
 			firstTime: scheduling.firstTime,
-			employeeId: scheduling.employeeId,
+			employee: {
+				id: scheduling.employee.id,
+				name: scheduling.employee.name,
+				crm: scheduling.employee.crm,
+				specialty: scheduling.employee.specialty,
+			},
 			notes: scheduling.notes,
 			patient: {
 				id: scheduling.patientId,

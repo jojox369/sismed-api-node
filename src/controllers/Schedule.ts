@@ -45,9 +45,10 @@ class ScheduleController {
 				'patient',
 				'patient.healthInsuranceType',
 				'patient.healthInsuranceType.healthInsurance',
+				'employee',
 			],
 		});
-		return response.json(scheduleView.attendance(scheduling as Schedule));
+		return response.json(scheduleView.details(scheduling as Schedule));
 	}
 
 	async update(request: Request, response: Response) {
