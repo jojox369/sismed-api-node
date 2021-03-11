@@ -10,20 +10,27 @@ class ClinicalRegisterController {
 	async list(request: Request, response: Response) {
 		const { patientId, medicId } = request.query;
 		const repository = getRepository(ClinicalRegister);
-		if (patientId && medicId) {
-			const registers = await repository.find({
-				where: {
-					patientId,
-					employeeId: medicId,
-				},
-				order: {
-					date: 'DESC',
-					time: 'DESC',
-				},
-			});
-			return response.json(clinicalRegister.previousRegisters(registers));
+		try {
+			if (patientId && medicId) {
+				const registers = await repository.find({
+					where: {
+						patientId,
+						employeeId: medicId,
+					},
+					order: {
+						date: 'DESC',
+						time: 'DESC',
+					},
+				});
+				return response.json(clinicalRegister.previousRegisters(registers));
+			}
+			const registers = await repository.find();
+			return response.json(registers);
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try list registers' });
 		}
-		return response.sendStatus(500);
 	}
 
 	async save(request: Request, response: Response) {
@@ -41,7 +48,7 @@ class ClinicalRegisterController {
 		} catch {
 			return response
 				.status(500)
-				.json({ message: 'Erro ao tentar salvar o registro clínico' });
+				.json({ message: 'Error when try save register' });
 		}
 	}
 }

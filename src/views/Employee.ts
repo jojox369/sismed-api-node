@@ -60,8 +60,30 @@ class EmployeeView {
 		}));
 	}
 
-	medicos(medicos: Employee[]) {
-		return medicos.map((medico) => ({ id: medico.id, name: medico.name }));
+	medics(medics: Employee[]) {
+		return medics.map((medic) => ({ id: medic.id, name: medic.name }));
+	}
+
+	medic(medic: Employee) {
+		return {
+			id: medic.id,
+			name: medic.name,
+			crm: medic.crm,
+			specialty: medic.specialty,
+		};
+	}
+
+	healthInsurances(employee: Employee) {
+		return employee.healthInsuranceTypes.map((healthInsuranceType) => {
+			return {
+				id: healthInsuranceType.id,
+				name: healthInsuranceType.name,
+				healthInsurance: {
+					id: healthInsuranceType.healthInsurance.id,
+					name: healthInsuranceType.healthInsurance.name,
+				},
+			};
+		});
 	}
 }
 
