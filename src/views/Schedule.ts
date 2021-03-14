@@ -36,7 +36,10 @@ class ScheduleView {
 	details(scheduling: Schedule) {
 		return {
 			id: scheduling.id,
+			date: scheduling.date,
+			time: scheduling.time,
 			paid: scheduling.paid,
+			attended: scheduling.attended,
 			notes: scheduling.notes,
 			healthInsuranceType: {
 				id: scheduling.healthInsuranceType.id,
@@ -45,6 +48,10 @@ class ScheduleView {
 					id: scheduling.healthInsuranceType.healthInsurance.id,
 					name: scheduling.healthInsuranceType.healthInsurance.name,
 				},
+			},
+			procedure: {
+				id: scheduling.procedure.id,
+				name: scheduling.procedure.name,
 			},
 			employee: {
 				id: scheduling.employee.id,

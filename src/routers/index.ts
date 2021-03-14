@@ -5,6 +5,7 @@ import ClinicalRegisterRoutes from './clinical.register.routes';
 import DevRoutes from './dev.routes';
 import EmployeeRoutes from './employee.routes';
 import PatientRoutes from './patient.routes';
+import ProcedureRoutes from './procedure.routes';
 import ScheduleRoutes from './schedule.routes';
 import UserRoutes from './user.routes';
 
@@ -14,6 +15,7 @@ Routers.use('/user', UserRoutes);
 Routers.use('/schedule', AuthenticationMiddleware, ScheduleRoutes);
 Routers.use('/patient', AuthenticationMiddleware, PatientRoutes);
 Routers.use('/employee', AuthenticationMiddleware, EmployeeRoutes);
+Routers.use('/procedure', AuthenticationMiddleware, ProcedureRoutes);
 Routers.use(
 	'/clinicalRegister',
 	AuthenticationMiddleware,

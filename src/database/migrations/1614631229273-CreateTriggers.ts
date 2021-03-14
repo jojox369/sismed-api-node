@@ -47,7 +47,7 @@ const TriggersData = [
 	{
 		name: 'trigger_verify_log ',
 		when: 'AFTER INSERT',
-		table: 'ON LOG',
+		table: 'ON log',
 		sql:
 			'IF((SELECT COUNT(id) FROM log) > 50 ) THEN DELETE FROM log ORDER BY id LIMIT 1; END IF',
 	},
@@ -58,11 +58,11 @@ export class CreateTriggers1614631229273 implements MigrationInterface {
 		TriggersData.map(async (trigger) => {
 			return await queryRunner.query(
 				'CREATE TRIGGER ' +
-				`${trigger.name} ${trigger.when} ${trigger.table}` +
-				' FOR EACH ROW' +
-				' BEGIN ' +
-				`${trigger.sql};` +
-				'	END'
+					`${trigger.name} ${trigger.when} ${trigger.table}` +
+					' FOR EACH ROW' +
+					' BEGIN ' +
+					`${trigger.sql};` +
+					'	END'
 			);
 		});
 	}

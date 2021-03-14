@@ -29,9 +29,7 @@ class UserController {
 					return response.status(401).json({ message: 'Senha inválida' });
 				}
 
-				const token = jwt.sign({ id: employee.id }, secretKey || 'secret', {
-					expiresIn: '1d',
-				});
+				const token = jwt.sign({ id: employee.id }, secretKey || 'secret');
 
 				return response.json(employeeView.authentication(employee, token));
 			}

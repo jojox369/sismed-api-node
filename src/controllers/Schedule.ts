@@ -51,6 +51,7 @@ class ScheduleController {
 					'patient',
 					'healthInsuranceType',
 					'healthInsuranceType.healthInsurance',
+					'procedure',
 				],
 			});
 			return response.json(scheduleView.details(scheduling as Schedule));
@@ -93,10 +94,20 @@ class ScheduleController {
 				healthInsuranceTypeId || scheduling?.healthInsuranceTypeId,
 			procedureId: procedureId || scheduling?.procedureId,
 		};
-		const updatedScheduling = repository.create(data);
 		try {
+			const updatedScheduling = repository.create(data);
 			await repository.save(updatedScheduling);
-			return response.json({ message: 'Scheduling updated sucesseed ' });
+			const scheduling = await repository.findOne({
+				where: { id: updatedScheduling.id },
+				relations: [
+					'employee',
+					'patient',
+					'healthInsuranceType',
+					'healthInsuranceType.healthInsurance',
+					'procedure',
+				],
+			});
+			return response.json(scheduleView.details(scheduling as Schedule));
 		} catch {
 			return response
 				.status(500)
