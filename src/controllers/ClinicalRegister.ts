@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+import { GenerateNewDate, GenerateNewTime } from '../assets/functions';
 import ClinicalRegister from '../models/ClinicalRegister';
 import ClinicalRegisterView from '../views/ClinicalRegister';
 
@@ -41,6 +42,8 @@ class ClinicalRegisterController {
 			patientId,
 			scheduleId,
 			description,
+			date: GenerateNewDate(),
+			time: GenerateNewTime(),
 		});
 		try {
 			await repository.save(clinicalRegister);

@@ -69,38 +69,34 @@ export function Procedures(codConvenio: number): number {
 	return response;
 }
 
-export const hora = () => {
+export const GenerateNewTime = () => {
 	const todayDate = new Date();
-	let hora;
-	let minutos;
+	let hours;
+	let minutes;
 	let seconds;
 	if (todayDate.getHours() < 10) {
-		hora = '0' + todayDate.getHours();
+		hours = '0' + todayDate.getHours();
 	} else {
-		hora = todayDate.getHours();
+		hours = todayDate.getHours();
 	}
 	if (todayDate.getMinutes() < 10) {
-		minutos = '0' + todayDate.getMinutes();
+		minutes = '0' + todayDate.getMinutes();
 	} else {
-		minutos = todayDate.getMinutes();
+		minutes = todayDate.getMinutes();
 	}
 	if (todayDate.getSeconds() < 10) {
 		seconds = '0' + todayDate.getSeconds();
 	} else {
 		seconds = todayDate.getSeconds();
 	}
-	return hora + ':' + minutos + ':' + seconds;
+	return hours + ':' + minutes + ':' + seconds;
 };
 
-export const data = () => {
+export const GenerateNewDate = () => {
 	const todayDate = new Date();
-	const todayArray = todayDate.toLocaleDateString().split('/');
+	const date = todayDate.toISOString().split('T')[0];
 
-	const todayYear = todayArray[2];
-	const todayMonth = todayArray[1];
-	const todayDay = todayArray[0];
-
-	return todayYear + '-' + todayMonth + '-' + todayDay;
+	return date;
 };
 
 export const generateHTML = (nomeFuncionario: string, codigo: string) => {

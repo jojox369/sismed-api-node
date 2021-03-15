@@ -40,6 +40,7 @@ class ScheduleView {
 			time: scheduling.time,
 			paid: scheduling.paid,
 			attended: scheduling.attended,
+			finished: scheduling.finished,
 			notes: scheduling.notes,
 			healthInsuranceType: {
 				id: scheduling.healthInsuranceType.id,

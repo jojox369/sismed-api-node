@@ -16,9 +16,9 @@ class UserController {
 		const secretKey = process.env.SECRET_KEY;
 		if (employee) {
 			if (employee.dismissalDate) {
-				return response
-					.status(403)
-					.json({ message: 'CPF não possui acesso ao sistema' });
+				return response.status(403).json({
+					message: "CPF don't have authorization to access the system",
+				});
 			} else {
 				const isValidPassword = await bcrypt.compare(
 					password,
@@ -26,7 +26,7 @@ class UserController {
 				);
 
 				if (!isValidPassword) {
-					return response.status(401).json({ message: 'Senha inválida' });
+					return response.status(401).json({ message: 'Invalid password' });
 				}
 
 				const token = jwt.sign({ id: employee.id }, secretKey || 'secret');
@@ -34,7 +34,7 @@ class UserController {
 				return response.json(employeeView.authentication(employee, token));
 			}
 		} else {
-			return response.status(500).json({ message: 'CPF não encontrado' });
+			return response.status(500).json({ message: 'CPF not found' });
 		}
 	}
 }

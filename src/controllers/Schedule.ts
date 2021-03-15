@@ -40,6 +40,7 @@ class ScheduleController {
 				.json({ message: 'Error when try list schedule' });
 		}
 	}
+
 	async getById(request: Request, response: Response) {
 		const { id } = request.params;
 		const repository = getRepository(Schedule);
@@ -79,6 +80,19 @@ class ScheduleController {
 		} = request.body;
 		const repository = getRepository(Schedule);
 		const scheduling = await repository.findOne({ id });
+		const hasScheduling = await repository.findOne({
+			id,
+			date,
+			time,
+			employeeId,
+		});
+		if (hasScheduling) {
+			if (hasScheduling.id !== id) {
+				return response.status(409).json({
+					message: 'Doctor already have scheduling for this date and time',
+				});
+			}
+		}
 		const data = {
 			id,
 			date: date || scheduling?.date,
@@ -112,6 +126,66 @@ class ScheduleController {
 			return response
 				.status(500)
 				.json({ message: 'Error when trying to update scheduling' });
+		}
+	}
+
+	async reschedule(request: Request, response: Response) {
+		const {
+			id,
+			notes,
+			date,
+			time,
+			employeeId,
+			healthInsuranceTypeId,
+			procedureId,
+			patientId,
+		} = request.body;
+		const repository = getRepository(Schedule);
+		const hasScheduling = await repository.find({
+			id,
+			date,
+			time,
+			employeeId,
+		});
+		if (hasScheduling.length > 0) {
+			return response.status(409).json({
+				message: 'Doctor already have scheduling for this date and time',
+			});
+		}
+		const schedulingData = await repository.findOne({ id });
+		const updatedScheduling = repository.create({
+			...schedulingData,
+			finished: true,
+			rescheduled: true,
+			attended: false,
+			notes,
+		});
+
+		const newScheduling = repository.create({
+			date,
+			time,
+			healthInsuranceTypeId,
+			procedureId,
+			patientId,
+			employeeId,
+		});
+
+		await repository.save(updatedScheduling);
+		await repository.save(newScheduling);
+
+		return response.json(scheduleView.details(updatedScheduling as Schedule));
+	}
+
+	async delete(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(Schedule);
+		try {
+			await repository.delete(id);
+			return response.json({ message: 'Scheduling successful deleted' });
+		} catch (error) {
+			return response
+				.status(500)
+				.json({ message: 'Error when try delete scheduling' });
 		}
 	}
 }
