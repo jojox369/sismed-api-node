@@ -11,5 +11,6 @@ Routers.get('/:id', scheduleController.getById);
 Routers.put('/', scheduleController.update);
 Routers.put('/reschedule', scheduleController.reschedule);
 Routers.delete('/:id', scheduleController.delete);
+Routers.post('/', scheduleController.save);
 
 export default Routers;

@@ -105,6 +105,7 @@ export default class Schedule {
 	@ManyToOne(() => Patient, (patient) => patient.schedules, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
+		cascade: true,
 	})
 	@JoinColumn([{ name: 'patient_id', referencedColumnName: 'id' }])
 	patient: Patient;

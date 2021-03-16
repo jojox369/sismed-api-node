@@ -188,6 +188,40 @@ class ScheduleController {
 				.json({ message: 'Error when try delete scheduling' });
 		}
 	}
+
+	async save(request: Request, response: Response) {
+		const {
+			date,
+			time,
+			employeeId,
+			patient,
+			healthInsuranceTypeId,
+			procedureId,
+		} = request.body;
+
+		const repository = getRepository(Schedule);
+
+		const hasScheduling = await repository.find({ date, time, employeeId });
+
+		if (hasScheduling.length > 0) {
+			return response.status(409).json({
+				message: 'Doctor already has an appointment on this date and time',
+			});
+		}
+
+		const scheduling = repository.create({
+			date,
+			time,
+			employeeId,
+			patient,
+			healthInsuranceTypeId,
+			procedureId,
+		});
+
+		await repository.save(scheduling);
+
+		return response.status(201).json(scheduling);
+	}
 }
 
 export default ScheduleController;
