@@ -1,19 +1,60 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getConnectionOptions, getManager, getRepository, Like } from 'typeorm';
 
 import Patient from '../models/Patient';
+import PatientView from '../views/Patient';
+
+const patientView = new PatientView();
 
 class PatientController {
 	async listAll(request: Request, response: Response) {
+		const { id, name, cell, cpf } = request.query;
+
 		const repository = getRepository(Patient);
 		try {
-			const patients = repository.find();
-			return response.json(patients);
+			if (id) {
+				const patients = await repository.find({ where: { id } });
+				return response.json(patientView.search(patients));
+			}
+
+			if (name) {
+				const patients = await repository.find({
+					where: { name: Like(`%${name}%`) },
+				});
+				return response.json(patientView.search(patients));
+			}
+
+			if (cell) {
+				const patients = await repository.find({ where: { cell } });
+				return response.json(patientView.search(patients));
+			}
+
+			if (cpf) {
+				const patients = await repository.find({ where: { cpf } });
+				return response.json(patientView.search(patients));
+			}
+
+			const patients = await repository.find();
+			return response.json(patientView.search(patients));
 		} catch {
 			return response
 				.status(500)
 				.json({ message: 'Error when try list patients' });
 		}
+	}
+
+	async nextId(request: Request, response: Response) {
+		const connection = await getConnectionOptions();
+
+		const database = connection.database;
+
+		const entityManager = getManager();
+
+		const nextId = await entityManager.query(
+			`SELECT AUTO_INCREMENT AS nextId FROM information_schema.tables ` +
+				`WHERE table_name = 'patient' AND table_schema = '${database}'`
+		);
+		return response.json(nextId[0]);
 	}
 }
 

@@ -7,5 +7,6 @@ const patientController = new PatientController();
 const Routes = Router();
 
 Routes.get('/', patientController.listAll);
+Routes.get('/nextId', patientController.nextId);
 
 export default Routes;
