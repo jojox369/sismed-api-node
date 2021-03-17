@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+import Address from '../models/Address';
 import Schedule from '../models/Schedule';
 import ScheduleView from '../views/Schedule';
 
@@ -207,6 +208,9 @@ class ScheduleController {
 			return response.status(409).json({
 				message: 'Doctor already has an appointment on this date and time',
 			});
+		}
+		if (!patient.address) {
+			patient.address = new Address();
 		}
 
 		const scheduling = repository.create({
