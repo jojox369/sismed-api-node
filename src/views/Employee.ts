@@ -4,7 +4,7 @@ class EmployeeView {
 	authentication(employee: Employee, token: string) {
 		return {
 			id: employee.id,
-			perfil: employee.profileId,
+			profile: employee.profileId,
 			name: employee.name,
 			token,
 		};
