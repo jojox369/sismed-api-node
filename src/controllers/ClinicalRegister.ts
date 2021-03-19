@@ -25,7 +25,9 @@ class ClinicalRegisterController {
 				});
 				return response.json(clinicalRegister.previousRegisters(registers));
 			}
-			const registers = await repository.find();
+			const registers = await repository.find({
+				where: { employeeId: medicId },
+			});
 			return response.json(registers);
 		} catch {
 			return response
