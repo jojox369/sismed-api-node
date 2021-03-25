@@ -43,6 +43,19 @@ class PatientController {
 		}
 	}
 
+	async getById(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(Patient);
+		try {
+			const patient = await repository.findOne({ where: { id } });
+			return response.json(patientView.details(patient as Patient));
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try list patient details' });
+		}
+	}
+
 	async nextId(request: Request, response: Response) {
 		const connection = await getConnectionOptions();
 

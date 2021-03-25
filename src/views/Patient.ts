@@ -12,6 +12,13 @@ class PatientView {
 			};
 		});
 	}
+
+	details(patient: Patient) {
+		return {
+			...patient,
+			age: AgeCalculator(patient.dateBirth),
+		};
+	}
 }
 
 export default PatientView;
