@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 import Address from './Address';
-import ClinicalRegister from './ClinicalRegister';
+import ClinicalRecord from './ClinicalRecord';
 import HealthInsuranceType from './HealthInsuranceType';
 import Log from './Log';
 import Profile from './Profile';
@@ -88,10 +88,10 @@ export default class Employee {
 	profileId: number;
 
 	@OneToMany(
-		() => ClinicalRegister,
-		(clinicalRegister) => clinicalRegister.employee
+		() => ClinicalRecord,
+		(clinicalRercord) => clinicalRercord.employee
 	)
-	clinicalRegisters: ClinicalRegister[];
+	clinicalRecords: ClinicalRecord[];
 
 	@ManyToOne(() => Address, (address) => address.employees, {
 		onDelete: 'NO ACTION',
