@@ -102,7 +102,7 @@ class ScheduleController {
 			paid: paid || scheduling?.paid,
 			rescheduled: rescheduled || scheduling?.rescheduled,
 			finished: finished || scheduling?.finished,
-			notes: notes || scheduling?.notes,
+			notes: notes.toUpperCase() || scheduling?.notes,
 			employeeId: employeeId || scheduling?.employeeId,
 			patientId: patientId || scheduling?.patientId,
 			healthInsuranceTypeId:
@@ -159,7 +159,7 @@ class ScheduleController {
 			finished: true,
 			rescheduled: true,
 			attended: false,
-			notes,
+			notes: notes.toUpperCase(),
 		});
 
 		const newScheduling = repository.create({

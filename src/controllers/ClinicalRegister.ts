@@ -33,7 +33,9 @@ class ClinicalRegisterController {
 						relations: ['patient'],
 						order: { date: 'DESC' },
 					});
-					return response.json(registers);
+					return response.json(
+						clinicalRegisterView.listPatientRegisters(registers)
+					);
 				}
 				const registers = await repository
 					.createQueryBuilder('rc')
@@ -107,6 +109,24 @@ class ClinicalRegisterController {
 		}
 	}
 
+	async getById(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(ClinicalRegister);
+		try {
+			const clinicalRegister = await repository.findOne({
+				where: { id },
+				relations: ['patient'],
+			});
+			return response.json(
+				clinicalRegisterView.details(clinicalRegister as ClinicalRegister)
+			);
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try get clinical register details' });
+		}
+	}
+
 	async save(request: Request, response: Response) {
 		const { employeeId, patientId, scheduleId, description } = request.body;
 		const repository = getRepository(ClinicalRegister);
@@ -114,7 +134,7 @@ class ClinicalRegisterController {
 			employeeId,
 			patientId,
 			scheduleId,
-			description,
+			description: description.toUpperCase(),
 			date: GenerateNewDate(),
 			time: GenerateNewTime(),
 		});
@@ -127,6 +147,40 @@ class ClinicalRegisterController {
 				.json({ message: 'Error when try save register' });
 		}
 	}
+
+	async update(request: Request, response: Response) {
+		const { id, description } = request.body;
+		const repository = getRepository(ClinicalRegister);
+		try {
+			const register = await repository.findOne({ where: { id } });
+			const updateRegister = repository.create({
+				...register,
+				description: description.toUpperCase(),
+			});
+
+			await repository.save(updateRegister);
+			return response.json(updateRegister);
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try update register' });
+		}
+	}
+
+	async delete(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(ClinicalRegister);
+		try {
+			await repository.delete(id);
+			return response.json({
+				message: 'Clinical register deleted successfully',
+			});
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try delete clinical register' });
+		}
+	}
 }
 
-export default new ClinicalRegisterController();
+export default ClinicalRegisterController;
