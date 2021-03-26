@@ -9,7 +9,7 @@ const clinicalRegisterView = new ClinicalRegisterView();
 
 class ClinicalRegisterController {
 	async list(request: Request, response: Response) {
-		const { patientId, medicId, patientName, date } = request.query;
+		const { patientId, medicId, patientName, date, getAll } = request.query;
 		const repository = getRepository(ClinicalRegister);
 		try {
 			if (patientId && medicId) {
@@ -27,6 +27,14 @@ class ClinicalRegisterController {
 			}
 
 			if (patientId) {
+				if (getAll) {
+					const registers = await repository.find({
+						where: { patientId },
+						relations: ['patient'],
+						order: { date: 'DESC' },
+					});
+					return response.json(registers);
+				}
 				const registers = await repository
 					.createQueryBuilder('rc')
 					.select([
