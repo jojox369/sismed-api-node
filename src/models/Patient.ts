@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import Address from './Address';
-import ClinicalRegister from './ClinicalRegister';
+import ClinicalRecord from './ClinicalRecord';
 import Exam from './Exam';
 import HealthInsuranceType from './HealthInsuranceType';
 import Schedule from './Schedule';
@@ -94,11 +94,8 @@ export default class Patient {
 	@Column('int', { name: 'health_insurance_type_id' })
 	healthInsuranceTypeId: number;
 
-	@OneToMany(
-		() => ClinicalRegister,
-		(clinicalRegister) => clinicalRegister.patient
-	)
-	clinicalRegisters: ClinicalRegister[];
+	@OneToMany(() => ClinicalRecord, (clinicalRecord) => clinicalRecord.patient)
+	clinicalRecords: ClinicalRecord[];
 
 	@OneToMany(() => Exam, (exam) => exam.patient)
 	exams: Exam[];

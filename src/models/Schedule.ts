@@ -7,7 +7,7 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import ClinicalRegister from './ClinicalRegister';
+import ClinicalRecord from './ClinicalRecord';
 import Employee from './Employee';
 import HealthInsuranceType from './HealthInsuranceType';
 import Patient from './Patient';
@@ -79,11 +79,8 @@ export default class Schedule {
 	@Column('int', { name: 'procedure_id' })
 	procedureId: number;
 
-	@OneToMany(
-		() => ClinicalRegister,
-		(clinicalRegister) => clinicalRegister.schedule
-	)
-	clinicalRegisters: ClinicalRegister[];
+	@OneToMany(() => ClinicalRecord, (clinicalRecord) => clinicalRecord.schedule)
+	clinicalRecords: ClinicalRecord[];
 
 	@ManyToOne(() => Employee, (employee) => employee.schedules, {
 		onDelete: 'NO ACTION',

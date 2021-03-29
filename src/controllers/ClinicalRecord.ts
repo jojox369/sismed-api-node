@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
 import { GenerateNewDate, GenerateNewTime } from '../assets/functions';
-import ClinicalRegister from '../models/ClinicalRegister';
-import ClinicalRegisterView from '../views/ClinicalRegister';
+import ClinicalRecord from '../models/ClinicalRecord';
+import ClinicalRecordView from '../views/ClinicalRecord';
 
-const clinicalRegisterView = new ClinicalRegisterView();
+const clinicalRecordView = new ClinicalRecordView();
 
-class ClinicalRegisterController {
+class ClinicalRecordController {
 	async list(request: Request, response: Response) {
 		const { patientId, medicId, patientName, date, getAll } = request.query;
-		const repository = getRepository(ClinicalRegister);
+		const repository = getRepository(ClinicalRecord);
 		try {
 			if (patientId && medicId) {
 				const registers = await repository.find({
@@ -23,7 +23,7 @@ class ClinicalRegisterController {
 						time: 'DESC',
 					},
 				});
-				return response.json(clinicalRegisterView.previousRegisters(registers));
+				return response.json(clinicalRecordView.previousRegisters(registers));
 			}
 
 			if (patientId) {
@@ -34,7 +34,7 @@ class ClinicalRegisterController {
 						order: { date: 'DESC' },
 					});
 					return response.json(
-						clinicalRegisterView.listPatientRegisters(registers)
+						clinicalRecordView.listPatientRegisters(registers)
 					);
 				}
 				const registers = await repository
@@ -51,7 +51,7 @@ class ClinicalRegisterController {
 					.where(`p.id = ${patientId} `)
 					.groupBy('p.name')
 					.getRawMany();
-				return response.json(clinicalRegisterView.listAll(registers));
+				return response.json(clinicalRecordView.listAll(registers));
 			}
 
 			if (patientName) {
@@ -69,7 +69,7 @@ class ClinicalRegisterController {
 					.where(`p.name LIKE '%${patientName}%' `)
 					.groupBy('p.name')
 					.getRawMany();
-				return response.json(clinicalRegisterView.listAll(registers));
+				return response.json(clinicalRecordView.listAll(registers));
 			}
 
 			if (date) {
@@ -87,7 +87,7 @@ class ClinicalRegisterController {
 					.where(`rc.date = '${date}' `)
 					.groupBy('p.name')
 					.getRawMany();
-				return response.json(clinicalRegisterView.listAll(registers));
+				return response.json(clinicalRecordView.listAll(registers));
 			}
 
 			const registers = await repository.query(
@@ -100,7 +100,7 @@ class ClinicalRegisterController {
 					'WHERE r.patient_id IS NULL) ORDER BY date DESC, time DESC'
 			);
 
-			return response.json(clinicalRegisterView.listAll(registers));
+			return response.json(clinicalRecordView.listAll(registers));
 		} catch (error) {
 			console.log(error);
 			return response
@@ -111,26 +111,26 @@ class ClinicalRegisterController {
 
 	async getById(request: Request, response: Response) {
 		const { id } = request.params;
-		const repository = getRepository(ClinicalRegister);
+		const repository = getRepository(ClinicalRecord);
 		try {
 			const clinicalRegister = await repository.findOne({
 				where: { id },
 				relations: ['patient'],
 			});
 			return response.json(
-				clinicalRegisterView.details(clinicalRegister as ClinicalRegister)
+				clinicalRecordView.details(clinicalRegister as ClinicalRecord)
 			);
 		} catch {
 			return response
 				.status(500)
-				.json({ message: 'Error when try get clinical register details' });
+				.json({ message: 'Error when try get clinical record details' });
 		}
 	}
 
 	async save(request: Request, response: Response) {
 		const { employeeId, patientId, scheduleId, description } = request.body;
-		const repository = getRepository(ClinicalRegister);
-		const clinicalRegister = repository.create({
+		const repository = getRepository(ClinicalRecord);
+		const clinicalRecord = repository.create({
 			employeeId,
 			patientId,
 			scheduleId,
@@ -139,48 +139,48 @@ class ClinicalRegisterController {
 			time: GenerateNewTime(),
 		});
 		try {
-			await repository.save(clinicalRegister);
-			return response.status(201).json(clinicalRegister);
+			await repository.save(clinicalRecord);
+			return response.status(201).json(ClinicalRecord);
 		} catch {
 			return response
 				.status(500)
-				.json({ message: 'Error when try save register' });
+				.json({ message: 'Error when try save clinical record' });
 		}
 	}
 
 	async update(request: Request, response: Response) {
 		const { id, description } = request.body;
-		const repository = getRepository(ClinicalRegister);
+		const repository = getRepository(ClinicalRecord);
 		try {
 			const register = await repository.findOne({ where: { id } });
-			const updateRegister = repository.create({
+			const updateRecord = repository.create({
 				...register,
 				description: description.toUpperCase(),
 			});
 
-			await repository.save(updateRegister);
-			return response.json(updateRegister);
+			await repository.save(updateRecord);
+			return response.json(updateRecord);
 		} catch {
 			return response
 				.status(500)
-				.json({ message: 'Error when try update register' });
+				.json({ message: 'Error when try update clinical record' });
 		}
 	}
 
 	async delete(request: Request, response: Response) {
 		const { id } = request.params;
-		const repository = getRepository(ClinicalRegister);
+		const repository = getRepository(ClinicalRecord);
 		try {
 			await repository.delete(id);
 			return response.json({
-				message: 'Clinical register deleted successfully',
+				message: 'Clinical record deleted successfully',
 			});
 		} catch {
 			return response
 				.status(500)
-				.json({ message: 'Error when try delete clinical register' });
+				.json({ message: 'Error when try delete clinical record' });
 		}
 	}
 }
 
-export default ClinicalRegisterController;
+export default ClinicalRecordController;

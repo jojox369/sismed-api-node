@@ -33,21 +33,21 @@ export default class ClinicalRegister {
 	@Column('int', { name: 'schedule_id', nullable: true })
 	scheduleId: number | null;
 
-	@ManyToOne(() => Employee, (employee) => employee.clinicalRegisters, {
+	@ManyToOne(() => Employee, (employee) => employee.clinicalRecords, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
 	})
 	@JoinColumn([{ name: 'employee_id', referencedColumnName: 'id' }])
 	employee: Employee;
 
-	@ManyToOne(() => Patient, (patient) => patient.clinicalRegisters, {
+	@ManyToOne(() => Patient, (patient) => patient.clinicalRecords, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
 	})
 	@JoinColumn([{ name: 'patient_id', referencedColumnName: 'id' }])
 	patient: Patient;
 
-	@ManyToOne(() => Schedule, (schedule) => schedule.clinicalRegisters, {
+	@ManyToOne(() => Schedule, (schedule) => schedule.clinicalRecords, {
 		onDelete: 'NO ACTION',
 		onUpdate: 'CASCADE',
 	})

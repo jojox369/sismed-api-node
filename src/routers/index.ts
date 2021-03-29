@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import AuthenticationMiddleware from '../middleware/Authentication';
-import ClinicalRegisterRoutes from './clinical.register.routes';
+import ClinicalRegisterRoutes from './clinical.record.routes';
 import DevRoutes from './dev.routes';
 import EmployeeRoutes from './employee.routes';
 import PatientRoutes from './patient.routes';
