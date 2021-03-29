@@ -39,8 +39,8 @@ export default class Patient {
 	@Column('varchar', { name: 'job_phone', nullable: true, length: 10 })
 	jobPhone: string | null;
 
-	@Column('varchar', { name: 'cell_phone', nullable: true, length: 11 })
-	cellPhone: string | null;
+	@Column('varchar', { name: 'cell_number', nullable: true, length: 11 })
+	cellNumber: string | null;
 
 	@Column('varchar', { name: 'sex', nullable: true, length: 1 })
 	sex: string | null;

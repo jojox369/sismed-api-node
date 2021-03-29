@@ -39,8 +39,8 @@ export default class Employee {
 	@Column('varchar', { name: 'phone', length: 10 })
 	phone: string;
 
-	@Column('varchar', { name: 'cell_phone', length: 11 })
-	cellPhone: string;
+	@Column('varchar', { name: 'cell_number', length: 11 })
+	cellNumber: string;
 
 	@Column('varchar', { name: 'sex', length: 1 })
 	sex: string;

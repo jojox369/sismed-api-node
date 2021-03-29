@@ -34,8 +34,8 @@ class PatientController {
 				return response.json(patientView.search(patients));
 			}
 
-			const patients = await repository.find();
-			return response.json(patientView.search(patients));
+			const patients = await repository.find({ order: { name: 'ASC' } });
+			return response.json(patientView.list(patients));
 		} catch {
 			return response
 				.status(500)

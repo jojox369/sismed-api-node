@@ -24,10 +24,10 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			"CREATE TABLE `exam` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `description` varchar(250) NOT NULL, `collection_date` date NOT NULL, `send_date` date NOT NULL, `return_date` date NULL, `lab_employee` varchar(45) NOT NULL, `value` decimal(7,2) NOT NULL DEFAULT '0.00', `patient_id` int NOT NULL, `lab_id` int NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB"
 		);
 		await queryRunner.query(
-			"CREATE TABLE `patient` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NULL, `rg` varchar(9) NULL, `emitting_organ` varchar(20) NULL, `emitting_date` date NULL, `phone` varchar(10) NULL, `job_phone` varchar(10) NULL, `cell_phone` varchar(11) NULL, `sex` varchar(1) NULL, `date_birth` date NULL, `email` varchar(50) NULL, `marital_status` varchar(1) NULL, `schooling` varchar(3) NULL, `naturalness` varchar(100) NULL, `nationality` varchar(1) NULL, `profession` varchar(100) NULL, `situation` varchar(1) NULL DEFAULT 'A', `recommendation` varchar(30) NULL, `health_insurance_number` varchar(50) NULL, `validity` date NULL, `address_id` int NOT NULL, `health_insurance_type_id` int NOT NULL, UNIQUE INDEX `IDX_d1206b00842f789e35c7c5baf6` (`cpf`), UNIQUE INDEX `IDX_2d70d584020cc1effd1de094cd` (`rg`), UNIQUE INDEX `IDX_3482032e859a66801bcbed83d2` (`health_insurance_number`), PRIMARY KEY (`id`)) ENGINE=InnoDB"
+			"CREATE TABLE `patient` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NULL, `rg` varchar(9) NULL, `emitting_organ` varchar(20) NULL, `emitting_date` date NULL, `phone` varchar(10) NULL, `job_phone` varchar(10) NULL, `cell_number` varchar(11) NULL, `sex` varchar(1) NULL, `date_birth` date NULL, `email` varchar(50) NULL, `marital_status` varchar(1) NULL, `schooling` varchar(3) NULL, `naturalness` varchar(100) NULL, `nationality` varchar(1) NULL, `profession` varchar(100) NULL, `situation` varchar(1) NULL DEFAULT 'A', `recommendation` varchar(30) NULL, `health_insurance_number` varchar(50) NULL, `validity` date NULL, `address_id` int NOT NULL, `health_insurance_type_id` int NOT NULL, UNIQUE INDEX `IDX_d1206b00842f789e35c7c5baf6` (`cpf`), UNIQUE INDEX `IDX_2d70d584020cc1effd1de094cd` (`rg`), UNIQUE INDEX `IDX_3482032e859a66801bcbed83d2` (`health_insurance_number`), PRIMARY KEY (`id`)) ENGINE=InnoDB"
 		);
 		await queryRunner.query(
-			'CREATE TABLE `clinical_register` (`id` int NOT NULL AUTO_INCREMENT, `date` date NOT NULL, `time` time NOT NULL, `description` longtext NOT NULL, `employee_id` int NOT NULL, `patient_id` int NOT NULL, `schedule_id` int NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
+			'CREATE TABLE `clinical_record` (`id` int NOT NULL AUTO_INCREMENT, `date` date NOT NULL, `time` time NOT NULL, `description` longtext NOT NULL, `employee_id` int NOT NULL, `patient_id` int NOT NULL, `schedule_id` int NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
 			'CREATE TABLE `event` (`id` int NOT NULL AUTO_INCREMENT, `type` varchar(45) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
@@ -39,7 +39,7 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			'CREATE TABLE `profile` (`id` int NOT NULL AUTO_INCREMENT, `type` varchar(45) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
-			'CREATE TABLE `employee` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NOT NULL, `rg` varchar(9) NOT NULL, `emitting_organ` varchar(20) NOT NULL, `emitting_date` date NOT NULL, `phone` varchar(10) NOT NULL, `cell_phone` varchar(11) NOT NULL, `sex` varchar(1) NOT NULL, `date_birth` date NOT NULL, `email` varchar(50) NOT NULL, `marital_status` varchar(1) NOT NULL, `schooling` varchar(3) NOT NULL, `naturalness` varchar(45) NOT NULL, `nationality` varchar(1) NOT NULL, `begin_date` date NOT NULL, `dismissal_date` date NULL, `crm` varchar(50) NULL, `specialty` varchar(45) NULL, `recovery_code` varchar(16) NULL, `password` varchar(255) NOT NULL, `address_id` int NOT NULL,  `profile_id` int NULL, UNIQUE INDEX `IDX_cc5bc3cbcb7312fbc898749c5b` (`cpf`), UNIQUE INDEX `IDX_733ef14870ef56a82761d2fa47` (`rg`), UNIQUE INDEX `IDX_887b54402180f09ae830aa37dd` (`crm`), PRIMARY KEY (`id`)) ENGINE=InnoDB'
+			'CREATE TABLE `employee` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(60) NOT NULL, `cpf` varchar(11) NOT NULL, `rg` varchar(9) NOT NULL, `emitting_organ` varchar(20) NOT NULL, `emitting_date` date NOT NULL, `phone` varchar(10) NOT NULL, `cell_number` varchar(11) NOT NULL, `sex` varchar(1) NOT NULL, `date_birth` date NOT NULL, `email` varchar(50) NOT NULL, `marital_status` varchar(1) NOT NULL, `schooling` varchar(3) NOT NULL, `naturalness` varchar(45) NOT NULL, `nationality` varchar(1) NOT NULL, `begin_date` date NOT NULL, `dismissal_date` date NULL, `crm` varchar(50) NULL, `specialty` varchar(45) NULL, `recovery_code` varchar(16) NULL, `password` varchar(255) NOT NULL, `address_id` int NOT NULL,  `profile_id` int NULL, UNIQUE INDEX `IDX_cc5bc3cbcb7312fbc898749c5b` (`cpf`), UNIQUE INDEX `IDX_733ef14870ef56a82761d2fa47` (`rg`), UNIQUE INDEX `IDX_887b54402180f09ae830aa37dd` (`crm`), PRIMARY KEY (`id`)) ENGINE=InnoDB'
 		);
 		await queryRunner.query(
 			'CREATE TABLE `address` (`id` int NOT NULL AUTO_INCREMENT, `zip_code` varchar(10) NULL, `street` varchar(255) NULL, `number` smallint NULL, `complement` varchar(45) NULL, `district` varchar(45) NULL, `city` varchar(45) NULL, `state` varchar(2) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB'
@@ -87,13 +87,13 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			'ALTER TABLE `patient` ADD CONSTRAINT `FK_5d259af2c14ee500d4eada0fac3` FOREIGN KEY (`health_insurance_type_id`) REFERENCES `health_insurance_type`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` ADD CONSTRAINT `FK_77096136ff554d315645b69fd40` FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
+			'ALTER TABLE `clinical_record` ADD CONSTRAINT `FK_77096136ff554d315645b69fd40` FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` ADD CONSTRAINT `FK_1ccfc30fd55ae28cf2cb5a9e7c8` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
+			'ALTER TABLE `clinical_record` ADD CONSTRAINT `FK_1ccfc30fd55ae28cf2cb5a9e7c8` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` ADD CONSTRAINT `FK_4f9be9124a187ff9ff59d1fb895` FOREIGN KEY (`schedule_id`) REFERENCES `schedule`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
+			'ALTER TABLE `clinical_record` ADD CONSTRAINT `FK_4f9be9124a187ff9ff59d1fb895` FOREIGN KEY (`schedule_id`) REFERENCES `schedule`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
 		);
 		await queryRunner.query(
 			'ALTER TABLE `log` ADD CONSTRAINT `FK_7d61e44b0c92794c16325c8f07c` FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE'
@@ -147,13 +147,13 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 			'ALTER TABLE `log` DROP FOREIGN KEY `FK_7d61e44b0c92794c16325c8f07c`'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` DROP FOREIGN KEY `FK_4f9be9124a187ff9ff59d1fb895`'
+			'ALTER TABLE `clinical_record` DROP FOREIGN KEY `FK_4f9be9124a187ff9ff59d1fb895`'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` DROP FOREIGN KEY `FK_1ccfc30fd55ae28cf2cb5a9e7c8`'
+			'ALTER TABLE `clinical_record` DROP FOREIGN KEY `FK_1ccfc30fd55ae28cf2cb5a9e7c8`'
 		);
 		await queryRunner.query(
-			'ALTER TABLE `clinical_register` DROP FOREIGN KEY `FK_77096136ff554d315645b69fd40`'
+			'ALTER TABLE `clinical_record` DROP FOREIGN KEY `FK_77096136ff554d315645b69fd40`'
 		);
 		await queryRunner.query(
 			'ALTER TABLE `patient` DROP FOREIGN KEY `FK_5d259af2c14ee500d4eada0fac3`'
@@ -219,7 +219,7 @@ export class CreateDataBase1614621186239 implements MigrationInterface {
 		await queryRunner.query('DROP TABLE `profile`');
 		await queryRunner.query('DROP TABLE `log`');
 		await queryRunner.query('DROP TABLE `event`');
-		await queryRunner.query('DROP TABLE `clinical_register`');
+		await queryRunner.query('DROP TABLE `clinical_record`');
 		await queryRunner.query(
 			'DROP INDEX `IDX_3482032e859a66801bcbed83d2` ON `patient`'
 		);

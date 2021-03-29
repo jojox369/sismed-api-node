@@ -19,6 +19,15 @@ class PatientView {
 			age: AgeCalculator(patient.dateBirth),
 		};
 	}
+
+	list(patients: Patient[]) {
+		return patients.map((patient) => ({
+			id: patient.id,
+			name: patient.name,
+			age: AgeCalculator(patient.dateBirth),
+			cellNumber: patient.cellNumber,
+		}));
+	}
 }
 
 export default PatientView;

@@ -10,8 +10,8 @@ import Employee from './Employee';
 import Patient from './Patient';
 import Schedule from './Schedule';
 
-@Entity('clinical_register')
-export default class ClinicalRegister {
+@Entity('clinical_record')
+export default class ClinicalRecord {
 	@PrimaryGeneratedColumn({ type: 'int', name: 'id' })
 	id: number;
 
