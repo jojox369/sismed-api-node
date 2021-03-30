@@ -47,7 +47,7 @@ class DevController {
 					sex: patient.sexo.charAt(0),
 					dateBirth: USDateFormatter(patient.data_nasc),
 					phone: patient.telefone_fixo,
-					cellPhone: patient.celular,
+					cellNumber: patient.celular,
 					healthInsuranceTypeId: 1,
 					address: {
 						cep: patient.cep,

@@ -30,12 +30,14 @@ class PatientController {
 			}
 
 			if (cpf) {
-				const patients = await repository.find({ where: { cpf } });
+				const patients = await repository.find({
+					where: { cpf: Like(`%${cpf}%`) },
+				});
 				return response.json(patientView.search(patients));
 			}
 
 			const patients = await repository.find({ order: { name: 'ASC' } });
-			return response.json(patientView.list(patients));
+			return response.json(patientView.search(patients));
 		} catch {
 			return response
 				.status(500)
