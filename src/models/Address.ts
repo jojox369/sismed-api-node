@@ -21,8 +21,8 @@ export default class Address {
 	@Column('varchar', { name: 'complement', nullable: true, length: 45 })
 	complement: string | null;
 
-	@Column('varchar', { name: 'district', nullable: true, length: 45 })
-	district: string | null;
+	@Column('varchar', { name: 'neighborhood', nullable: true, length: 45 })
+	neighborhood: string | null;
 
 	@Column('varchar', { name: 'city', nullable: true, length: 45 })
 	city: string | null;
