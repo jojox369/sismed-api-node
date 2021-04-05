@@ -12,29 +12,33 @@ class UserController {
 	async authentication(request: Request, response: Response) {
 		const { username, password } = request.body;
 		const repository = getRepository(Employee);
-		const employee = await repository.findOne({ cpf: username });
-		const secretKey = process.env.SECRET_KEY;
-		if (employee) {
-			if (employee.dismissalDate) {
-				return response.status(403).json({
-					message: "CPF don't have authorization to access the system",
-				});
-			} else {
-				const isValidPassword = await bcrypt.compare(
-					password,
-					employee.password
-				);
+		try {
+			const employee = await repository.findOne({ cpf: username });
+			const secretKey = process.env.SECRET_KEY;
+			if (employee) {
+				if (employee.dismissalDate) {
+					return response.status(403).json({
+						message: "CPF don't have authorization to access the system",
+					});
+				} else {
+					const isValidPassword = await bcrypt.compare(
+						password,
+						employee.password
+					);
 
-				if (!isValidPassword) {
-					return response.status(401).json({ message: 'Invalid password' });
+					if (!isValidPassword) {
+						return response.status(401).json({ message: 'Invalid password' });
+					}
+
+					const token = jwt.sign({ id: employee.id }, secretKey || 'secret');
+
+					return response.json(employeeView.authentication(employee, token));
 				}
-
-				const token = jwt.sign({ id: employee.id }, secretKey || 'secret');
-
-				return response.json(employeeView.authentication(employee, token));
+			} else {
+				return response.status(500).json({ message: 'CPF not found' });
 			}
-		} else {
-			return response.status(500).json({ message: 'CPF not found' });
+		} catch {
+			return response.status(500).json({ message: 'Error in login method' });
 		}
 	}
 }
