@@ -49,7 +49,14 @@ class PatientController {
 		const { id } = request.params;
 		const repository = getRepository(Patient);
 		try {
-			const patient = await repository.findOne({ where: { id } });
+			const patient = await repository.findOne({
+				where: { id },
+				relations: [
+					'address',
+					'healthInsuranceType',
+					'healthInsuranceType.healthInsurance',
+				],
+			});
 			return response.json(patientView.details(patient as Patient));
 		} catch {
 			return response
@@ -92,7 +99,6 @@ class PatientController {
 			rg,
 			schooling,
 			sex,
-			situation,
 			validity,
 			address,
 			healthInsuranceTypeId,
@@ -120,7 +126,6 @@ class PatientController {
 			rg: rg ? rg.replace(/\D/g, '') : null,
 			schooling: schooling ? schooling.toUpperCase() : null,
 			sex: sex ? sex.toUpperCase() : null,
-			situation: situation ? situation.toUpperCase() : null,
 			validity: validity ? validity : null,
 			address: {
 				zipCode: address.zipCode.replace(/\D/g, ''),
@@ -136,6 +141,82 @@ class PatientController {
 		const patient = repository.create(data);
 		await repository.save(patient);
 		return response.status(201).json(patient);
+	}
+
+	async update(request: Request, response: Response) {
+		const {
+			id,
+			name,
+			cellNumber,
+			cpf,
+			dateBirth,
+			email,
+			emittingDate,
+			emittingOrgan,
+			healthInsuranceNumber,
+			jobPhone,
+			maritalStatus,
+			nationality,
+			naturalness,
+			phone,
+			profession,
+			recommendation,
+			rg,
+			schooling,
+			sex,
+			situation,
+			validity,
+			address,
+			healthInsuranceTypeId,
+		} = request.body;
+		const repository = getRepository(Patient);
+
+		const data = {
+			id,
+			name: name.toUpperCase(),
+			cellNumber: cellNumber.replace(/\D/g, ''),
+			cpf: cpf ? cpf.replace(/\D/g, '') : null,
+			dateBirth: dateBirth ? dateBirth : null,
+			email: email ? email.toUpperCase() : null,
+			emittingDate: emittingDate ? emittingDate : null,
+			emittingOrgan: emittingOrgan ? emittingOrgan.toUpperCase() : null,
+			healthInsuranceNumber: healthInsuranceNumber
+				? healthInsuranceNumber
+				: null,
+			jobPhone: jobPhone ? jobPhone.replace(/\D/g, '') : null,
+			maritalStatus: maritalStatus ? maritalStatus.toUpperCase() : null,
+			nationality: nationality ? nationality.toUpperCase() : null,
+			naturalness: naturalness ? naturalness.toUpperCase() : null,
+			phone: phone ? phone.replace(/\D/g, '') : null,
+			profession: profession ? profession.toUpperCase() : null,
+			recommendation: recommendation ? recommendation.toUpperCase() : null,
+			rg: rg ? rg.replace(/\D/g, '') : null,
+			schooling: schooling ? schooling.toUpperCase() : null,
+			sex: sex ? sex.toUpperCase() : null,
+			validity: validity ? validity : null,
+			situation: situation ? situation.toUpperCase() : null,
+			address: {
+				zipCode: address.zipCode.replace(/\D/g, ''),
+				street: address.street.toUpperCase(),
+				number: +address.number,
+				complement: address.complement.toUpperCase(),
+				neighborhood: address.neighborhood.toUpperCase(),
+				city: address.city.toUpperCase(),
+				state: address.state.toUpperCase(),
+			},
+			healthInsuranceTypeId,
+		};
+		const patient = repository.create(data);
+		await repository.save(patient);
+		const patientReturn = await repository.findOne({
+			where: { id },
+			relations: [
+				'address',
+				'healthInsuranceType',
+				'healthInsuranceType.healthInsurance',
+			],
+		});
+		return response.json(patientView.details(patientReturn as Patient));
 	}
 }
 
