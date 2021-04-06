@@ -11,5 +11,6 @@ Routes.get('/:id', patientController.getById);
 Routes.get('/nextId', patientController.nextId);
 Routes.post('/', patientController.save);
 Routes.put('/', patientController.update);
+Routes.delete('/:id', patientController.delete);
 
 export default Routes;

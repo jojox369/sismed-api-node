@@ -128,13 +128,13 @@ class PatientController {
 			sex: sex ? sex.toUpperCase() : null,
 			validity: validity ? validity : null,
 			address: {
-				zipCode: address.zipCode.replace(/\D/g, ''),
-				street: address.street.toUpperCase(),
-				number: +address.number,
-				complement: address.complement.toUpperCase(),
-				neighborhood: address.neighborhood.toUpperCase(),
-				city: address.city.toUpperCase(),
-				state: address.state.toUpperCase(),
+				zipCode: address.zipCode?.replace(/\D/g, ''),
+				street: address.street?.toUpperCase(),
+				number: address.number ? +address.number : null,
+				complement: address.complement?.toUpperCase(),
+				neighborhood: address.neighborhood?.toUpperCase(),
+				city: address.city?.toUpperCase(),
+				state: address.state?.toUpperCase(),
 			},
 			healthInsuranceTypeId,
 		};
@@ -196,13 +196,13 @@ class PatientController {
 			validity: validity ? validity : null,
 			situation: situation ? situation.toUpperCase() : null,
 			address: {
-				zipCode: address.zipCode.replace(/\D/g, ''),
-				street: address.street.toUpperCase(),
-				number: +address.number,
-				complement: address.complement.toUpperCase(),
-				neighborhood: address.neighborhood.toUpperCase(),
-				city: address.city.toUpperCase(),
-				state: address.state.toUpperCase(),
+				zipCode: address.zipCode?.replace(/\D/g, ''),
+				street: address.street?.toUpperCase(),
+				number: address.number ? +address.number : null,
+				complement: address.complement?.toUpperCase(),
+				neighborhood: address.neighborhood?.toUpperCase(),
+				city: address.city?.toUpperCase(),
+				state: address.state?.toUpperCase(),
 			},
 			healthInsuranceTypeId,
 		};
@@ -217,6 +217,19 @@ class PatientController {
 			],
 		});
 		return response.json(patientView.details(patientReturn as Patient));
+	}
+
+	async delete(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(Patient);
+		try {
+			await repository.delete(id);
+			return response.json({ message: 'Patient successful deleted' });
+		} catch {
+			return response
+				.status(500)
+				.json({ message: 'Error when try deleted patient' });
+		}
 	}
 }
 
