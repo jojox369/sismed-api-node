@@ -92,11 +92,11 @@ class ClinicalRecordController {
 
 			const registers = await repository.query(
 				'(SELECT p.name as patientName, p.id as patientId, r.id, r.date,  r.time,COUNT(*) AS amount ' +
-					'FROM clinical_register r INNER JOIN patient p ON r.patient_id = p.id ' +
+					'FROM clinical_record r INNER JOIN patient p ON r.patient_id = p.id ' +
 					'GROUP BY patient_id) ' +
 					'UNION' +
 					'(SELECT p.name as patientName, p.id as patientId, r.id, r.date, r.time, NULL AS amount ' +
-					'FROM patient p LEFT JOIN clinical_register r ON p.id = r.patient_id ' +
+					'FROM patient p LEFT JOIN clinical_record r ON p.id = r.patient_id ' +
 					'WHERE r.patient_id IS NULL) ORDER BY date DESC, time DESC'
 			);
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository, IsNull, Not } from 'typeorm';
+import { getRepository, IsNull, Like, Not } from 'typeorm';
 
 import Employee from '../models/Employee';
 import EmployeeView from '../views/Employee';
@@ -8,7 +8,7 @@ const employeeView = new EmployeeView();
 
 class EmployeeController {
 	async listAll(request: Request, response: Response) {
-		const { medic } = request.query;
+		const { medic, name, cpf, id } = request.query;
 		const repository = getRepository(Employee);
 		try {
 			if (medic) {
@@ -16,6 +16,22 @@ class EmployeeController {
 					where: { crm: Not(IsNull()) },
 				});
 				return response.json(employeeView.medics(employees));
+			}
+			if (name) {
+				const employees = await repository.find({
+					where: { name: Like(`%${name}%`) },
+				});
+				return response.json(employeeView.employees(employees));
+			}
+			if (cpf) {
+				const employees = await repository.find({
+					where: { cpf: Like(`%${cpf}%`) },
+				});
+				return response.json(employeeView.employees(employees));
+			}
+			if (id) {
+				const employees = await repository.find({ where: { id } });
+				return response.json(employeeView.employees(employees));
 			}
 			const employees = await repository.find();
 			return response.json(employeeView.employees(employees));
