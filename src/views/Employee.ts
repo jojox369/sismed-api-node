@@ -21,7 +21,7 @@ class EmployeeView {
 			crm: employee.crm,
 			specialty: employee.specialty,
 			phone: employee.phone,
-			cellPhone: employee.cellPhone,
+			cellNumber: employee.cellNumber,
 			sex: employee.sex,
 			dateBirth: employee.dateBirth,
 			email: employee.email,
@@ -38,7 +38,7 @@ class EmployeeView {
 				street: employee.address.street,
 				number: employee.address.number,
 				complement: employee.address.complement,
-				district: employee.address.district,
+				neighborhood: employee.address.neighborhood,
 				city: employee.address.city,
 				state: employee.address.state,
 			},
@@ -50,13 +50,7 @@ class EmployeeView {
 			id: func.id,
 			name: func.name,
 			cpf: func.cpf,
-
-			crm: func.crm,
-			specialty: func.specialty,
-			phone: func.phone,
-			cellPhone: func.cellPhone,
-
-			email: func.email,
+			profile: func.profileId,
 		}));
 	}
 

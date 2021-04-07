@@ -18,7 +18,7 @@ class EmployeeController {
 				return response.json(employeeView.medics(employees));
 			}
 			const employees = await repository.find();
-			return response.json(employees);
+			return response.json(employeeView.employees(employees));
 		} catch {
 			return response
 				.status(500)
