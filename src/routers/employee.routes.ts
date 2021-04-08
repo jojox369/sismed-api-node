@@ -17,6 +17,7 @@ Routes.get(
 );
 
 Routes.get('/:id', employeeController.getById);
+Routes.post('/', employeeController.save);
 Routes.put('/', employeeController.update);
 
 export default Routes;

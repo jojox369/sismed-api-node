@@ -169,6 +169,76 @@ class EmployeeController {
 			return response.status(500).send('Error when try update employee');
 		}
 	}
+
+	async save(request: Request, response: Response) {
+		const {
+			name,
+			cpf,
+			rg,
+			emittingOrgan,
+			emittingDate,
+			phone,
+			cellNumber,
+			sex,
+			dateBirth,
+			email,
+			maritalStatus,
+			schooling,
+			naturalness,
+			nationality,
+			beginDate,
+			dismissalDate,
+			crm,
+			specialty,
+			recoveryCode,
+			password,
+			profile,
+			address,
+		} = request.body;
+		const repository = getRepository(Employee);
+		const data = {
+			name: name.toUpperCase(),
+			cpf: cpf.replace(/\D/g, ''),
+			rg: rg.replace(/\D/g, ''),
+			emittingOrgan: emittingOrgan.toUpperCase(),
+			emittingDate,
+			phone: phone.replace(/\D/g, ''),
+			cellNumber: cellNumber.replace(/\D/g, ''),
+			sex: sex.toUpperCase(),
+			dateBirth,
+			email: email.toUpperCase(),
+			maritalStatus: maritalStatus.toUpperCase(),
+			schooling: schooling.toUpperCase(),
+			naturalness: naturalness.toUpperCase(),
+			nationality: nationality.toUpperCase(),
+			beginDate,
+			dismissalDate,
+			crm,
+			specialty: specialty?.toUpperCase(),
+			recoveryCode,
+			password,
+			profile: {
+				id: +profile.id,
+			},
+			address: {
+				zipCode: address.zipCode?.replace(/\D/g, ''),
+				street: address.street?.toUpperCase(),
+				number: address.number ? +address.number : null,
+				complement: address.complement?.toUpperCase(),
+				neighborhood: address.neighborhood?.toUpperCase(),
+				city: address.city?.toUpperCase(),
+				state: address.state?.toUpperCase(),
+			},
+		};
+
+		const employee = repository.create(data);
+		try {
+			await repository.save(employee);
+			return response.status(201).send('Employee was successfully created');
+		} catch {
+			return response.status(500).send('Error when try update employee');
+		}
+	}
 }
 
 export default EmployeeController;
