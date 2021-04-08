@@ -78,16 +78,95 @@ class EmployeeController {
 		const { medic } = request.query;
 		const repository = getRepository(Employee);
 		try {
-			const employee = await repository.findOne({ where: { id } });
+			const employee = await repository.findOne({
+				where: { id },
+				relations: ['address', 'profile'],
+			});
 			if (medic) {
 				return response.json(employeeView.medic(employee as Employee));
 			} else {
 				return response.json(employeeView.details(employee as Employee));
 			}
-		} catch {
+		} catch (error) {
 			return response
 				.status(500)
 				.json({ message: 'Error when try search employee' });
+		}
+	}
+
+	async update(request: Request, response: Response) {
+		const {
+			id,
+			name,
+			cpf,
+			rg,
+			emittingOrgan,
+			emittingDate,
+			phone,
+			cellNumber,
+			sex,
+			dateBirth,
+			email,
+			maritalStatus,
+			schooling,
+			naturalness,
+			nationality,
+			beginDate,
+			dismissalDate,
+			crm,
+			specialty,
+			recoveryCode,
+			password,
+			profile,
+			address,
+		} = request.body;
+		const repository = getRepository(Employee);
+		const data = {
+			id: +id,
+			name: name.toUpperCase(),
+			cpf: cpf.replace(/\D/g, ''),
+			rg: rg.replace(/\D/g, ''),
+			emittingOrgan: emittingOrgan.toUpperCase(),
+			emittingDate,
+			phone: phone.replace(/\D/g, ''),
+			cellNumber: cellNumber.replace(/\D/g, ''),
+			sex: sex.toUpperCase(),
+			dateBirth,
+			email: email.toUpperCase(),
+			maritalStatus: maritalStatus.toUpperCase(),
+			schooling: schooling.toUpperCase(),
+			naturalness: naturalness.toUpperCase(),
+			nationality: nationality.toUpperCase(),
+			beginDate,
+			dismissalDate,
+			crm,
+			specialty: specialty.toUpperCase(),
+			recoveryCode,
+			password,
+			profile: {
+				id: +profile.id,
+			},
+			address: {
+				zipCode: address.zipCode?.replace(/\D/g, ''),
+				street: address.street?.toUpperCase(),
+				number: address.number ? +address.number : null,
+				complement: address.complement?.toUpperCase(),
+				neighborhood: address.neighborhood?.toUpperCase(),
+				city: address.city?.toUpperCase(),
+				state: address.state?.toUpperCase(),
+			},
+		};
+
+		const employee = repository.create(data);
+		try {
+			await repository.save(employee);
+			const updatedEmployees = await repository.findOne({
+				where: { id },
+				relations: ['address', 'profile'],
+			});
+			return response.json(employeeView.details(updatedEmployees as Employee));
+		} catch {
+			return response.status(500).send('Error when try update employee');
 		}
 	}
 }

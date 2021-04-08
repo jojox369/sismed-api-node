@@ -31,7 +31,10 @@ class EmployeeView {
 			beginDate: employee.beginDate,
 			dismissalDate: employee.dismissalDate,
 			nationality: employee.nationality,
-			profileId: employee.profileId,
+			profile: {
+				id: employee.profileId,
+				type: employee.profile.type,
+			},
 			address: {
 				id: employee.address.id,
 				zipCode: employee.address.zipCode,
