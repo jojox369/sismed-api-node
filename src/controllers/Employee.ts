@@ -140,7 +140,7 @@ class EmployeeController {
 			beginDate,
 			dismissalDate,
 			crm,
-			specialty: specialty.toUpperCase(),
+			specialty: specialty?.toUpperCase(),
 			recoveryCode,
 			password,
 			profile: {
@@ -237,6 +237,17 @@ class EmployeeController {
 			return response.status(201).send('Employee was successfully created');
 		} catch {
 			return response.status(500).send('Error when try update employee');
+		}
+	}
+
+	async delete(request: Request, response: Response) {
+		const { id } = request.params;
+		const repository = getRepository(Employee);
+		try {
+			await repository.delete(id);
+			return response.status(200).send('Employee was successfully deleted');
+		} catch {
+			return response.status(500).send('Error when try delete employee');
 		}
 	}
 }

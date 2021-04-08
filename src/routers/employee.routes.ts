@@ -19,5 +19,6 @@ Routes.get(
 Routes.get('/:id', employeeController.getById);
 Routes.post('/', employeeController.save);
 Routes.put('/', employeeController.update);
+Routes.delete('/:id', employeeController.delete);
 
 export default Routes;
