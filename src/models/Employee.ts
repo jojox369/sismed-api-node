@@ -87,10 +87,7 @@ export default class Employee {
 	@Column('int', { name: 'profile_id' })
 	profileId: number;
 
-	@OneToMany(
-		() => ClinicalRecord,
-		(clinicalRercord) => clinicalRercord.employee
-	)
+	@OneToMany(() => ClinicalRecord, (clinicalRecord) => clinicalRecord.employee)
 	clinicalRecords: ClinicalRecord[];
 
 	@ManyToOne(() => Address, (address) => address.employees, {
